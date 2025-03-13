@@ -6,6 +6,8 @@ This chapter describes the prerequisites, best practices, parameters, and proced
 
 # Prerequisites
 
+The prerequistes information is given below.
+
 ## Common
 
 The prerequisites for deployment of Mistral using Operator are described in the following sections.
@@ -213,7 +215,11 @@ subjects:
 
 # Best Practices and Recommendations
 
+The best practices and recommendations are given below.
+
 ## HWE
+
+The hardware details are specified in the below sections.
 
 ### Small
 
@@ -256,6 +262,8 @@ Recommended for deployments with high workload and a large amount of data. For e
 
 # Parameters
 
+The parameters information is specified in the below sections.
+
 ## General Parameters
 
 The general parameters used for the configurations are specified in the following table.
@@ -291,12 +299,16 @@ The general parameters used for the configurations are specified in the followin
 
 ## Mistral Ingress Parameters
 
+The Mistral Ingress parameters are as follows:
+
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
 |mistral.ingress.enabled|bool|no|'False'|This parameter enables Mistral ingress creation.|
 |mistral.ingress.host|string|no|""|This parameter specifies the name of the external Mistral host. It must be complex and unique enough not to intersect with other possible external host names. For example, to generate the value for this parameter, use the OpenShift/Kubernetes host: If the URL to OpenShift/Kubernetes is https://example.com:8443 and the namespace is mistral-service, the host name for Mistral can be mistral-mistral-service.example.com. After the deployment is completed, you can access Mistral using the https://mistral-mistral-service.example.com URL.|
 
 ## Mistral Authentication Parameters
+
+The Mistral Authentication parameters are as follows:
 
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
@@ -314,6 +326,8 @@ The general parameters used for the configurations are specified in the followin
 
 ## Kafka Notification Parameters
 
+The Kafka Notification parameters are as follows:
+
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
 |mistralCommonParams.kafkaNotifications.enabled|bool|no|False|This parameter enables notifications through Kafka.|
@@ -326,6 +340,8 @@ The general parameters used for the configurations are specified in the followin
 |secrets.kafkaSaslPlainPassword|string|no|'password'|This parameter specifies the Kafka password.|
 
 ## Horizontal Pod Autoscalers Parameters
+
+The Horizontal Pod Autoscalers parameters are as follows:
 
 **Note: API metrics need to be installed on k8s cluster**
 
@@ -342,6 +358,8 @@ The general parameters used for the configurations are specified in the followin
 
 ## Mistral API Parameters
 
+The Mistral API parameters are as follows:
+
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
 |mistralApi.replicas|int|no|1|This parameter specifies the number of Mistral-api replicas.|
@@ -353,6 +371,8 @@ The general parameters used for the configurations are specified in the followin
 |mistralApi.priorityClassName|string|no|""|The priority class to be used to assign priority to Mistral Api pod. Priority class should be created beforehand. For more information, refer to https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/.|
 
 ## Mistral Monitoring Parameters
+
+The Mistral Monitoring parameters are as follows:
 
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
@@ -372,6 +392,8 @@ The general parameters used for the configurations are specified in the followin
 
 ## Mistral Executor Parameters
 
+The Mistral Executor parameters are as follows:
+
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
 |mistralExecutor.replicas|int|no|1|This parameter specifies the number of Mistral-executor replicas.|
@@ -390,6 +412,8 @@ The general parameters used for the configurations are specified in the followin
 
 ## Mistral Engine Parameters
 
+The Mistral Engine parameters are as follows:
+
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
 |mistralEngine.replicas|int|no|1|This parameter specifies the number of Mistral-engine replicas.|
@@ -401,6 +425,8 @@ The general parameters used for the configurations are specified in the followin
 |mistralEngine.priorityClassName|string|no|""|The priority class to be used to assign priority to Mistral Engine pod. Priority class should be created beforehand. For more information, refer to https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/.|
 
 ## Mistral Notifier Parameters
+
+The Mistral Notifier parameters are as follows:
 
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
@@ -414,6 +440,8 @@ The general parameters used for the configurations are specified in the followin
 
 ## Mistral UpdateDB Pod parameters
 
+The Mistral UpdateDB Pod parameters are as follows:
+
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
 |mistralUpdateDbPod.memoryLimit|string|no|300Mi|This parameter specifies the update-db pod memory limit.|
@@ -422,6 +450,8 @@ The general parameters used for the configurations are specified in the followin
 |mistralUpdateDbPod.priorityClassName|string|no|""|The priority class to be used to assign priority to Mistral Upgrade DB pod. Priority class should be created beforehand. For more information, refer to https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/.|
 
 ## Mistral Lite Parameters
+
+The Mistral Lite parameters are as follows:
 
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
@@ -440,6 +470,8 @@ The general parameters used for the configurations are specified in the followin
 
 ## Mistral Operator Parameters
 
+The Mistral Operator parameters are as follows:
+
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
 |operatorImage|string|yes|image included in the manifest|This parameter specifies the Mistral Operator image.|
@@ -452,6 +484,8 @@ The general parameters used for the configurations are specified in the followin
 |labels|yaml|no|''|This parameter specifies additional labels for all pods, including mistral operator.|
 
 ## Disaster Recovery Parameters
+
+The Disaster Recovery parameters are as follows:
 
 | Parameter                                                                | Type    | Mandatory | Default value            | Description                                                                                                                                                                                                                                                                                                          |
 |--------------------------------------------------------------------------|---------|-----------|--------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -472,6 +506,8 @@ The general parameters used for the configurations are specified in the followin
 
 ## Integration Tests Parameters
 
+The Integration Tests parameters are as follows:
+
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
 |integrationTests.enabled|bool|no|False|This parameter specifies whether integration tests are enabled.|
@@ -488,6 +524,8 @@ The general parameters used for the configurations are specified in the followin
 |secrets.idpPasswordRobot|string|no|'null'|This parameter specifies the IDP password for testing.|
 
 # Installation
+
+The installation process is described below.
 
 ## Before You Begin
 
@@ -513,8 +551,7 @@ $ helm install mistral-service <path_to_helm_chart_folder> --namespace <mistral_
 Mistral allows cleaning up Database, Rabbit and Kafka if it's needed during deployment
 - **Helm** : set  `mistralCommonParams.cleanup=True`
 
-
-This feature will clean up existing data first and then Mistral will be installed.
+This feature will clean up the existing data first and then Mistral will be installed.
 
 ## On-Prem
 
