@@ -1,4 +1,4 @@
-This section provides information about manual deployment of Mistral service an operator. For this deployment, only Mistral configurations without a guaranteed notifier are supported.
+This section provides information about manual deployment of Mistral service with an operator. For this deployment, only Mistral configurations without a guaranteed notifier are supported.
 Overall, the Mistral configuration is similar to the Mistral deployment with the OpenShift deployer, except for the OpenShift route is not created when deployment is done using an operator.
 
 To deploy Mistral with an operator in OpenShift/Kubernetes:
@@ -61,7 +61,7 @@ To deploy Mistral with an operator in OpenShift/Kubernetes:
    kubectl apply -f deploy/rabbit_roles.yaml
    ```
 
-**Note**: To apply CRD, ensure you have cluster-admin privileges.
+**Note**: To apply CRD, ensure that you have cluster-admin privileges.
 
 When the operator pod is up and running, you can deploy Mistral using the `kubectl apply -f /deploy/cr.yaml` command.
 
