@@ -9,7 +9,9 @@ is switched on `standby`/`active` the Mistral pods are up/down. In case of `stan
 ## Configuration
 
 The Disaster Recovery (DR) configuration requires two separate Mistral clusters installed on two Kubernetes/OpenShift clusters.
-Each Mistral cluster must be deployed with `mode` parameter. For example, for `active` side:
+Each Mistral cluster must be deployed with `mode` parameter. 
+
+For example, for `active` side:
 
   ```
   disasterRecovery:
@@ -57,9 +59,7 @@ Where:
 
 ## Configuration Example
 
-You want to install Mistral service in Disaster Recovery scheme.
-
-The configuration for `active` Mistral cluster is as follows:
+If you want to install Mistral service in Disaster Recovery scheme, the configuration for `active` Mistral cluster is as follows:
 
 ```yaml
 disasterRecovery:
@@ -107,20 +107,19 @@ disasterRecovery:
 
 You can perform the switchover using the `SiteManager` functionality or Mistral disaster recovery REST server API.
 
-
 If you want to perform a switchover manually, you need to switch `active` Mistral cluster to `standby` mode and then switch `standby` Mistral cluster to `active` mode. You need to run the following command from within any Mistral pod on the `active` side:
 
 ```
 curl -XPOST -H "Content-Type: application/json" mistral-disaster-recovery.<NAMESPACE>:8068/sitemanager -d '{"mode":"standby"}'
 ```
 
-Then you should run the following command from within any Mistral pod on the `standby` side:
+Then, run the following command from within any Mistral pod on the `standby` side:
 
 ```
 curl -XPOST -H "Content-Type: application/json" mistral-disaster-recovery.<NAMESPACE>:8068/sitemanager -d '{"mode":"active"}'
 ```
 
-Where `<NAMESPACE>` is the OpenShift/Kubernetes project/namespace of the Mistral cluster side. For example, `mistral-service`.
+Where, `<NAMESPACE>` is the OpenShift/Kubernetes project/namespace of the Mistral cluster side. For example, `mistral-service`.
 
 For more information about Mistral disaster recovery REST server API, see [REST API](#rest-api).
 
@@ -143,8 +142,7 @@ Mistral disaster recovery REST server provides three methods of interaction:
   curl -XGET -H "Authorization: Bearer <TOKEN>" mistral-disaster-recovery.<NAMESPACE>:8068/healthz
   ```
 
-  Where `TOKEN` is Site Manager Kubernetes JWT Service Account Token. The verification service account name and namespace are specified in `disasterRecovery.httpAuth.smServiceAccountName` and `disasterRecovery.httpAuth.smNamespace` deploy parameters.
-
+ Where, `TOKEN` is Site Manager Kubernetes JWT Service Account Token. The verification service account name and namespace are specified in `disasterRecovery.httpAuth.smServiceAccountName` and `disasterRecovery.httpAuth.smNamespace` deploy parameters.
 
   The response to such a request is as follows:
 
@@ -165,16 +163,16 @@ Mistral disaster recovery REST server provides three methods of interaction:
   curl -XGET mistral-disaster-recovery.<NAMESPACE>:8068/sitemanager
   ```
 
-  Where `<NAMESPACE>` is the OpenShift/Kubernetes project/namespace of the Mistral cluster side. For example, `mistral-service`.
+  Where, `<NAMESPACE>` is the OpenShift/Kubernetes project/namespace of the Mistral cluster side. For example, `mistral-service`.
 
-  All Mistral disaster recovery REST server endpoints can be secured via Kubernetes JWT Service Account Tokens. To enable disaster recovery REST server authentication the `disasterRecovery.httpAuth.enabled` deployment parameter must be `true`.
+  All Mistral disaster recovery REST server endpoints can be secured via Kubernetes JWT Service Account Tokens. To enable the disaster recovery REST server authentication, the `disasterRecovery.httpAuth.enabled` deployment parameter must be `true`.
   The example for secured `sitemanager` GET endpoint is following:
 
   ```
   curl -XGET -H "Authorization: Bearer <TOKEN>" mistral-disaster-recovery.<NAMESPACE>:8068/sitemanager
   ```
 
-  Where `TOKEN` is Site Manager Kubernetes JWT Service Account Token. The verification service account name and namespace are specified in `disasterRecovery.httpAuth.smServiceAccountName` and `disasterRecovery.httpAuth.smNamespace` deploy parameters.
+  Where, `TOKEN` is Site Manager Kubernetes JWT Service Account Token. The verification service account name and namespace are specified in `disasterRecovery.httpAuth.smServiceAccountName` and `disasterRecovery.httpAuth.smNamespace` deploy parameters.
 
   The response to such a request is as follows:
 
@@ -206,15 +204,14 @@ Mistral disaster recovery REST server provides three methods of interaction:
     * `standby` - Mistral does not accept external requests from clients.
     * `disable` - Mistral does not accept external requests from clients.
 
-  All Mistral disaster recovery REST server endpoints can be secured via Kubernetes JWT Service Account Tokens. To enable disaster recovery REST server authentication the `disasterRecovery.httpAuth.enabled` deployment parameter must be `true`.
+  All Mistral disaster recovery REST server endpoints can be secured via Kubernetes JWT Service Account Tokens. To enable the disaster recovery REST server authentication, the `disasterRecovery.httpAuth.enabled` deployment parameter must be `true`.
   The example for secured `sitemanager` POST endpoint is following:
 
   ```
   curl -XPOST -H "Content-Type: application/json, Authorization: Bearer <TOKEN>" mistral-disaster-recovery.<NAMESPACE>:8068/sitemanager
   ```
 
-  Where `TOKEN` is Site Manager Kubernetes JWT Service Account Token. The verification service account name and namespace are specified in `disasterRecovery.httpAuth.smServiceAccountName` and `disasterRecovery.httpAuth.smNamespace` deploy parameters.
-
+  Where, `TOKEN` is Site Manager Kubernetes JWT Service Account Token. The verification service account name and namespace are specified in `disasterRecovery.httpAuth.smServiceAccountName` and `disasterRecovery.httpAuth.smNamespace` deploy parameters.
 
   The response to such a request is as follows:
 
