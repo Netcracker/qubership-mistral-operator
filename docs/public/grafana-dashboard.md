@@ -56,11 +56,11 @@ The following images displays the Mistral CPU usage:
 
 ![Mistral CPU Usage](/docs/public/images/grafana_mistral_cpu_usage.PNG)
 
-* `Mistral Engine CPU Usage` - Displays the Mistral Engine CPU usage in millicores, CPU limit, and CPU requested for each engine pod.
-* `Mistral API CPU Usage` - Displays the Mistral API CPU usage in millicores, CPU limit, and CPU requested for each API pod.
-* `Mistral Executor CPU Usage` - Displays the Mistral Executor CPU usage in millicores, CPU limit, and CPU requested for each Executor pod.
-* `Mistral Notifier CPU Usage` - Displays the Mistral Notifier CPU usage in millicores, CPU limit, and CPU requested for each Notifier pod.
-* `Mistral Monitoring CPU Usage` - Displays the Mistral Monitoring CPU usage in millicores, CPU limit, and CPU requested for each Monitoring pod.
+* `Mistral Engine CPU Usage` - Displays the Mistral Engine CPU usage in cores, CPU limit, and CPU requested for each engine pod.
+* `Mistral API CPU Usage` - Displays the Mistral API CPU usage in cores, CPU limit, and CPU requested for each API pod.
+* `Mistral Executor CPU Usage` - Displays the Mistral Executor CPU usage in cores, CPU limit, and CPU requested for each Executor pod.
+* `Mistral Notifier CPU Usage` - Displays the Mistral Notifier CPU usage in cores, CPU limit, and CPU requested for each Notifier pod.
+* `Mistral Monitoring CPU Usage` - Displays the Mistral Monitoring CPU usage in cores, CPU limit, and CPU requested for each Monitoring pod.
 
 ## Mistral MEM Usage
 

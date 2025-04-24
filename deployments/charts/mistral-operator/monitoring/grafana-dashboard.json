@@ -1225,7 +1225,7 @@
       "datasource": {
         "uid": "$datasource"
       },
-      "description": "Displays amount of millicores requested by Mistral pods, millicores usage and limit",
+      "description": "Displays amount of cores requested by Mistral pods, cores usage and limit",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1235,7 +1235,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "Millicores",
+            "axisLabel": "Cores",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -3890,7 +3890,7 @@
       "datasource": {
         "uid": "$datasource"
       },
-      "description": "Displays Mistral Engine CPU usage (in millicores),  CPU limit and CPU requested for each engine pod",
+      "description": "Displays Mistral Engine CPU usage (in cores),  CPU limit and CPU requested for each engine pod",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3900,7 +3900,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "Millicores",
+            "axisLabel": "Cores",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -4202,7 +4202,7 @@
       "datasource": {
         "uid": "$datasource"
       },
-      "description": "Displays Mistral API CPU usage (in millicores),  CPU limit and CPU requested for each API pod",
+      "description": "Displays Mistral API CPU usage (in Cores),  CPU limit and CPU requested for each API pod",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -4212,7 +4212,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "Millicores",
+            "axisLabel": "Cores",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -4514,7 +4514,7 @@
       "datasource": {
         "uid": "$datasource"
       },
-      "description": "Displays Mistral Executor CPU usage (in millicores),  CPU limit and CPU requested for each Executor pod",
+      "description": "Displays Mistral Executor CPU usage (in cores),  CPU limit and CPU requested for each Executor pod",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -4524,7 +4524,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "Millicores",
+            "axisLabel": "Cores",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -4826,7 +4826,7 @@
       "datasource": {
         "uid": "$datasource"
       },
-      "description": "Displays Mistral Notifier CPU usage (in millicores),  CPU limit and CPU requested for each Notifier pod",
+      "description": "Displays Mistral Notifier CPU usage (in cores),  CPU limit and CPU requested for each Notifier pod",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -4836,7 +4836,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "Millicores",
+            "axisLabel": "Cores",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -5138,7 +5138,7 @@
       "datasource": {
         "uid": "$datasource"
       },
-      "description": "Displays Mistral Monitoring CPU usage (in millicores),  CPU limit and CPU requested for each Monitoring pod",
+      "description": "Displays Mistral Monitoring CPU usage (in cores),  CPU limit and CPU requested for each Monitoring pod",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -5148,7 +5148,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "Millicores",
+            "axisLabel": "Cores",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -7154,7 +7154,6 @@
   },
   "timezone": "browser",
   "title": "Mistral Overview",
-  "uid": "50074fc58bb2e5119b6bc9222eedb87ada62ca61",
   "version": 1,
   "weekStart": ""
 }
