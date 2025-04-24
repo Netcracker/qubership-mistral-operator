@@ -49,6 +49,8 @@ mistral:
         enabled: true
       bluegreen:
         enabled: true
+      disasterRecovery:
+        enabled: true
     subjectAlternativeName:
       additionalDnsNames: []
       additionalIpAddresses: []

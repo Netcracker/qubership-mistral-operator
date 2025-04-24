@@ -101,6 +101,11 @@ spec:
         - name: mistral-disaster-recovery
           image: {{ template "disasterRecovery.image" . }}
           imagePullPolicy: Always
+          {{- if eq (include "disasterRecovery.enableTls" .) "true" }}
+          volumeMounts:
+            - name: mistral-tls-certs
+              mountPath: /tls
+          {{- end }}
           ports:
             - containerPort: 8068
               protocol: TCP
@@ -119,6 +124,12 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+            {{- if eq (include "disasterRecovery.enableTls" .) "true" }}
+            - name: TLS_ENABLED
+              value: "true"
+            - name: CERTS_PATH
+              value: "/tls/"
+            {{- end }}
             - name: SERVER_PORT
               value: "8068"
             - name: RESOURCE_FOR_DR

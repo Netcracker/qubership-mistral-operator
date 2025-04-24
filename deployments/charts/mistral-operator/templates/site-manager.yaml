@@ -23,6 +23,6 @@ spec:
     allowedStandbyStateList: ["down"]
     timeout: 360
     parameters:
-      serviceEndpoint: "mistral-disaster-recovery.{{ .Release.Namespace }}.svc.cluster.local:8068/sitemanager"
-      healthzEndpoint: "mistral-disaster-recovery.{{ .Release.Namespace }}.svc.cluster.local:8068/healthz"
+      serviceEndpoint: "{{ template "disasterRecovery.protocol" . }}mistral-disaster-recovery.{{ .Release.Namespace }}.svc.cluster.local:8068/sitemanager"
+      healthzEndpoint: "{{ template "disasterRecovery.protocol" . }}mistral-disaster-recovery.{{ .Release.Namespace }}.svc.cluster.local:8068/healthz"
 {{- end }}

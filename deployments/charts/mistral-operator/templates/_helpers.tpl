@@ -432,3 +432,21 @@ Monitor mistral images for deployments in open source (returns empty string).
 {{- define "mistral.monitoredImages" -}}
   ""
 {{- end -}}
+
+{{/*
+Whether Disaster recovery TLS enabled
+*/}}
+{{- define "disasterRecovery.enableTls" -}}
+  {{- and .Values.mistral.tls.enabled .Values.mistral.tls.services.disasterRecovery.enabled -}}
+{{- end -}}
+
+{{/*
+Protocol for DRD
+*/}}
+{{- define "disasterRecovery.protocol" -}}
+{{- if eq (include "disasterRecovery.enableTls" .) "true" -}}
+  {{- "https://" -}}
+{{- else -}}
+  {{- "http://" -}}
+{{- end -}}
+{{- end -}}
