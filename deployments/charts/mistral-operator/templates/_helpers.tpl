@@ -156,8 +156,10 @@ Postgres password for Mistral.
 {{- define "mistral.pgPass" -}}
   {{- if and (ne (.Values.INFRA_POSTGRES_MISTRAL_PASSWORD | toString) "<nil>") .Values.mistral.cloudIntegrationEnabled -}}
     {{- .Values.INFRA_POSTGRES_MISTRAL_PASSWORD }}
+  {{- else if and (.Values.secrets.pgPassword) (ne (.Values.secrets.pgPassword | toString) "") -}}
+    {{- .Values.secrets.pgPassword }}
   {{- else -}}
-    {{- .Values.secrets.pgPassword -}}
+    {{- printf "mistral_nc" }}
   {{- end -}}
 {{- end -}}
 
