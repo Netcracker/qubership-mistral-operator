@@ -23,7 +23,7 @@ LIVENESS_PROBE_COMMAND_RMQ = [
 ]
 
 
-def get_liveness_probe_kafka(kafka_host):
+def get_liveness_probe_kafka():
     return V1Probe(
         failure_threshold=30,
         initial_delay_seconds=60,
@@ -34,7 +34,8 @@ def get_liveness_probe_kafka(kafka_host):
             command=[
                 "/bin/sh",
                 "-c",
-                f"nc -z {kafka_host} || exit 1"
+                "python3 /opt/mistral/mistral/services/" +
+                "healthcheck_kafka_consumer.py || exit 1"
             ]
         )
     )

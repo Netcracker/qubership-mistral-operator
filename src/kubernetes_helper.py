@@ -996,8 +996,7 @@ class KubernetesHelper:
         if server_name.lower() == 'notifier':
             kafka_enabled = self._spec['mistralCommonParams']['kafkaNotifications']['enabled']
             if kafka_enabled:
-                kafka_host = self._spec['mistralCommonParams']['kafkaNotifications']['host']
-                liveness_probe = MC.get_liveness_probe_kafka(kafka_host)
+                liveness_probe = MC.get_liveness_probe_kafka()
                 pod_template_spec.spec.containers[0].liveness_probe = \
                     liveness_probe
             mistral_volume_items.append(
@@ -1006,7 +1005,6 @@ class KubernetesHelper:
                 )
             )
             pod_template_spec.spec.priority_class_name = self.get_priority_class_name("mistralNotifier")
-
 
         if server_name.lower() == 'monitoring':
             pod_template_spec.spec.containers[0].readiness_probe = \
