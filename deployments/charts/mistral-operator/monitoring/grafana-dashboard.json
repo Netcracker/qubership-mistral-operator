@@ -19,15 +19,11 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 284,
+  "id": 2683,
   "links": [],
   "panels": [
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PC3E95692D54ABCC0"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -36,15 +32,6 @@
       },
       "id": 22,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PC3E95692D54ABCC0"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "Overview",
       "type": "row"
     },
@@ -250,11 +237,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "tasks",
@@ -551,11 +539,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "usage: $tag_pod_name",
@@ -1134,11 +1123,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "Tasks in non-terminal state",
@@ -1323,11 +1313,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "usage: $tag_pod_name",
@@ -1672,10 +1663,6 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PC3E95692D54ABCC0"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1684,15 +1671,6 @@
       },
       "id": 68,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PC3E95692D54ABCC0"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "Mistral Apps Status",
       "type": "row"
     },
@@ -1777,6 +1755,7 @@
           "datasource": {
             "uid": "$datasource"
           },
+          "editorMode": "code",
           "expr": "max(topk(1, mistral_state{namespace=\"$mistral_namespace\", cluster=\"$cluster\",name='mistral-api'}))",
           "format": "time_series",
           "groupBy": [],
@@ -1787,6 +1766,7 @@
           "orderByTime": "ASC",
           "policy": "default",
           "query": "SELECT last(\"state\") FROM \"mistral_apps\" WHERE (\"namespace\" ='$project'  AND \"name\" =~ /^mistral-api/) AND time >= now() - 2m ",
+          "range": true,
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -2387,6 +2367,7 @@
           "datasource": {
             "uid": "$datasource"
           },
+          "editorMode": "code",
           "expr": "max(topk(1, mistral_available_replicas{namespace=\"$mistral_namespace\", cluster=\"$cluster\",name=\"mistral-api\"}))",
           "format": "time_series",
           "groupBy": [],
@@ -2397,6 +2378,7 @@
           "orderByTime": "ASC",
           "policy": "default",
           "query": "SELECT last(\"available_replicas\") FROM \"mistral_apps\" WHERE (\"name\" =~ /^mistral-api/ AND \"namespace\" ='$project' ) AND time >= now() - 2m",
+          "range": true,
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -2505,6 +2487,7 @@
           "datasource": {
             "uid": "$datasource"
           },
+          "editorMode": "code",
           "expr": "max(topk(1, mistral_available_replicas{namespace=\"$mistral_namespace\", cluster=\"$cluster\", name=\"mistral-executor\"}))",
           "format": "time_series",
           "groupBy": [],
@@ -2515,6 +2498,7 @@
           "orderByTime": "ASC",
           "policy": "default",
           "query": "SELECT last(\"available_replicas\") FROM \"mistral_apps\" WHERE (\"name\" =~ /^mistral-executor/ AND \"namespace\" ='$project' ) AND time >= now() - 2m",
+          "range": true,
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -2912,28 +2896,284 @@
       "type": "stat"
     },
     {
-      "collapsed": false,
       "datasource": {
+        "default": false,
         "type": "prometheus",
-        "uid": "PC3E95692D54ABCC0"
+        "uid": "$datasource"
       },
+      "description": "Сount of container restarts in each Mistral pod",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Count",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 30,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 11,
+        "x": 0,
+        "y": 18
+      },
+      "id": 86,
+      "interval": "$inter",
+      "maxDataPoints": 100,
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true,
+          "width": 400
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.2.1",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum by (pod, name) (\r\n    kube_pod_container_status_restarts_total{\r\n      namespace=\"$mistral_namespace\", \r\n      container!=\"POD\"\r\n    }\r\n)",
+          "format": "time_series",
+          "groupBy": [],
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "__auto",
+          "measurement": "mistral_apps",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"available_replicas\") FROM \"mistral_apps\" WHERE (\"name\" =~ /^mistral-api/ AND \"namespace\" ='$project' ) AND time >= now() - 2m",
+          "range": true,
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "available_replicas"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "name",
+              "operator": "=~",
+              "value": "/^mistral-api/"
+            },
+            {
+              "condition": "AND",
+              "key": "namespace",
+              "operator": "=~",
+              "value": "/^$project$/"
+            }
+          ]
+        }
+      ],
+      "title": "Mistral pods restart count",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
+      "description": "Counts how many pods last terminated for each distinct reason (e.g., OOMKilled, Error, etc.). ",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 13,
+        "x": 11,
+        "y": 18
+      },
+      "id": 87,
+      "interval": "$inter",
+      "maxDataPoints": 100,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.2.1",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "count by (pod, reason) (\r\n  kube_pod_container_status_last_terminated_reason{\r\n    namespace=\"mistral-saar\"\r\n  }\r\n) > 0\r\n",
+          "format": "table",
+          "groupBy": [],
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{exported_pod}}",
+          "measurement": "mistral_apps",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"available_replicas\") FROM \"mistral_apps\" WHERE (\"name\" =~ /^mistral-api/ AND \"namespace\" ='$project' ) AND time >= now() - 2m",
+          "range": true,
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "available_replicas"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "name",
+              "operator": "=~",
+              "value": "/^mistral-api/"
+            },
+            {
+              "condition": "AND",
+              "key": "namespace",
+              "operator": "=~",
+              "value": "/^$project$/"
+            }
+          ]
+        }
+      ],
+      "title": "Mistral pod restarts by reason",
+      "transformations": [
+        {
+          "id": "limit",
+          "options": {
+            "limitField": "50"
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 18
+        "y": 26
       },
       "id": 12,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PC3E95692D54ABCC0"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "Total Mistral Entities",
       "type": "row"
     },
@@ -3063,7 +3303,7 @@
         "h": 6,
         "w": 6,
         "x": 0,
-        "y": 19
+        "y": 27
       },
       "id": 8,
       "interval": "$inter",
@@ -3075,11 +3315,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "running",
@@ -3297,7 +3538,7 @@
         "h": 6,
         "w": 6,
         "x": 6,
-        "y": 19
+        "y": 27
       },
       "id": 2,
       "interval": "$inter",
@@ -3309,11 +3550,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "running",
@@ -3454,7 +3696,7 @@
         "h": 6,
         "w": 6,
         "x": 12,
-        "y": 19
+        "y": 27
       },
       "id": 55,
       "interval": "$inter",
@@ -3466,11 +3708,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "complete_task",
@@ -3720,7 +3963,7 @@
         "h": 6,
         "w": 6,
         "x": 18,
-        "y": 19
+        "y": 27
       },
       "id": 10,
       "interval": "$inter",
@@ -3732,11 +3975,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "10.4.2",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "running",
@@ -3861,28 +4105,314 @@
       "type": "timeseries"
     },
     {
-      "collapsed": false,
       "datasource": {
+        "default": false,
         "type": "prometheus",
-        "uid": "PC3E95692D54ABCC0"
+        "uid": "$datasource"
+      },
+      "description": "Displays the 50 most recent workflow executions based on their creation time.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "mistral_execution_created_timestamp"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 188
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
-        "h": 1,
-        "w": 24,
+        "h": 8,
+        "w": 13,
         "x": 0,
-        "y": 25
+        "y": 33
       },
-      "id": 24,
-      "panels": [],
+      "id": 88,
+      "interval": "$inter",
+      "maxDataPoints": 100,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "frameIndex": 0,
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "mistral_execution_created_timestamp"
+          }
+        ]
+      },
+      "pluginVersion": "11.2.1",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PC3E95692D54ABCC0"
+            "uid": "$datasource"
           },
+          "editorMode": "code",
+          "expr": "max by (workflow_name, execution_id, state) (mistral_execution_time)",
+          "format": "table",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "__auto",
+          "range": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "max by (workflow_name, execution_id) (mistral_execution_created_timestamp * 1000)",
+          "format": "table",
+          "hide": false,
+          "instant": false,
+          "interval": "",
+          "legendFormat": "__auto",
+          "range": true,
+          "refId": "B"
         }
       ],
+      "title": "Mistral Latest 50 Execution Workflow Time",
+      "transformations": [
+        {
+          "id": "joinByField",
+          "options": {
+            "byField": "execution_id",
+            "mode": "outer"
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "time",
+                "targetField": "Value #B"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time 2": true,
+              "workflow_name 2": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Time 1": "Time",
+              "Value #A": "seconds",
+              "Value #B": "created_at",
+              "state": "",
+              "workflow_name 1": "workflow_name"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "default": false,
+        "type": "prometheus",
+        "uid": "$datasource"
+      },
+      "description": "Total number of task retries",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "dark-green",
+                "value": null
+              },
+              {
+                "color": "semi-dark-green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 11,
+        "x": 13,
+        "y": 33
+      },
+      "id": 80,
+      "interval": "$inter",
+      "maxDataPoints": 100,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.2.1",
+      "targets": [
+        {
+          "datasource": {
+            "uid": "$datasource"
+          },
+          "disableTextWrap": false,
+          "editorMode": "code",
+          "expr": " mistral_task_retries{namespace=\"$mistral_namespace\"}",
+          "format": "table",
+          "fullMetaSearch": false,
+          "groupBy": [],
+          "includeNullMetadata": true,
+          "instant": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "__auto",
+          "measurement": "mistral_apps",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT last(\"available_replicas\") FROM \"mistral_apps\" WHERE (\"name\" =~ /^mistral-api/ AND \"namespace\" ='$project' ) AND time >= now() - 2m",
+          "range": true,
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "available_replicas"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "name",
+              "operator": "=~",
+              "value": "/^mistral-api/"
+            },
+            {
+              "condition": "AND",
+              "key": "namespace",
+              "operator": "=~",
+              "value": "/^$project$/"
+            }
+          ],
+          "useBackend": false
+        }
+      ],
+      "title": "Mistral task retries",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": false,
+              "__name__": true,
+              "container": true,
+              "endpoint": true,
+              "exported_namespace": true,
+              "instance": true,
+              "job": true,
+              "namespace": true,
+              "pod": true,
+              "service": true
+            },
+            "includeByName": {},
+            "indexByName": {},
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 41
+      },
+      "id": 24,
+      "panels": [],
       "title": "Mistral CPU Usage",
       "type": "row"
     },
@@ -3894,7 +4424,8 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "fixedColor": "red",
+            "mode": "thresholds"
           },
           "custom": {
             "axisBorderShow": false,
@@ -3905,7 +4436,7 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -3914,6 +4445,9 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
             "lineWidth": 1,
             "pointSize": 5,
             "scaleDistribution": {
@@ -3936,10 +4470,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -3948,8 +4478,28 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byName",
-              "options": "usage: mistral-engine-1-2v4kl"
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": null
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "A"
             },
             "properties": [
               {
@@ -3964,7 +4514,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 26
+        "y": 42
       },
       "id": 26,
       "interval": "$inter",
@@ -3976,17 +4526,19 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "usage: $tag_pod_name",
           "datasource": {
             "uid": "$datasource"
           },
+          "editorMode": "code",
           "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$mistral_namespace\", cluster=\"$cluster\",pod=~\"mistral-engine.+\"}[$inter])) by (pod)",
           "format": "time_series",
           "groupBy": [
@@ -4017,6 +4569,7 @@
           "orderByTime": "ASC",
           "policy": "default",
           "query": "SELECT mean(\"value\") FROM \"cpu/usage_rate\" WHERE (\"type\" = 'pod_container' AND \"namespace_name\" ='$project' AND \"pod_name\" =~ /^mistral-engine/) AND $timeFilter GROUP BY time($__interval), \"pod_name\" fill(linear)",
+          "range": true,
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -4055,144 +4608,17 @@
           ]
         },
         {
-          "alias": "limit: $tag_pod_name",
           "datasource": {
+            "type": "prometheus",
             "uid": "$datasource"
           },
-          "expr": "",
-          "format": "time_series",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "pod_name"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "linear"
-              ],
-              "type": "fill"
-            }
-          ],
+          "editorMode": "code",
+          "expr": "sum by (pod) (\r\n  kube_pod_container_resource_limits_cpu_cores{\r\n    namespace=\"$mistral_namespace\",\r\n    container=\"mistral-engine\"\r\n  } \r\n)\r\n",
           "hide": false,
-          "intervalFactor": 1,
-          "measurement": "cpu/limit",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT mean(\"value\") FROM \"cpu/limit\" WHERE (\"type\" = 'pod_container' AND \"namespace_name\" ='$project'  AND \"pod_name\" =~ /^mistral-engine/) AND $timeFilter GROUP BY time($__interval), \"pod_name\" fill(linear)",
-          "rawQuery": true,
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "type",
-              "operator": "=",
-              "value": "pod_container"
-            },
-            {
-              "condition": "AND",
-              "key": "namespace_name",
-              "operator": "=~",
-              "value": "/^$project$/"
-            },
-            {
-              "condition": "AND",
-              "key": "pod_name",
-              "operator": "=~",
-              "value": "/^mistral-engine/"
-            }
-          ]
-        },
-        {
-          "alias": "request: $tag_pod_name",
-          "datasource": {
-            "uid": "$datasource"
-          },
-          "expr": "",
-          "format": "time_series",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "pod_name"
-              ],
-              "type": "tag"
-            },
-            {
-              "params": [
-                "linear"
-              ],
-              "type": "fill"
-            }
-          ],
-          "hide": false,
-          "intervalFactor": 1,
-          "measurement": "cpu/request",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT mean(\"value\") FROM \"cpu/request\" WHERE (\"type\" = 'pod_container' AND \"namespace_name\" ='$project'  AND \"pod_name\" =~ /^mistral-engine/) AND $timeFilter GROUP BY time($__interval), \"pod_name\" fill(linear)",
-          "rawQuery": true,
-          "refId": "C",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "type",
-              "operator": "=",
-              "value": "pod_container"
-            },
-            {
-              "condition": "AND",
-              "key": "namespace_name",
-              "operator": "=~",
-              "value": "/^$project$/"
-            },
-            {
-              "condition": "AND",
-              "key": "pod_name",
-              "operator": "=~",
-              "value": "/^mistral-engine/"
-            }
-          ]
+          "instant": false,
+          "legendFormat": "limit: {{pod}}",
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Mistral Engine CPU Usage",
@@ -4200,13 +4626,15 @@
     },
     {
       "datasource": {
+        "default": false,
+        "type": "prometheus",
         "uid": "$datasource"
       },
-      "description": "Displays Mistral API CPU usage (in Cores),  CPU limit and CPU requested for each API pod",
+      "description": "Displays Mistral API CPU usage (in cores),  CPU limit and CPU requested for each API pod",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
           "custom": {
             "axisBorderShow": false,
@@ -4217,7 +4645,7 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -4248,10 +4676,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -4260,8 +4684,28 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byName",
-              "options": "usage: mistral-api-1-q4899"
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": null
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "A"
             },
             "properties": [
               {
@@ -4276,7 +4720,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 26
+        "y": 42
       },
       "id": 56,
       "interval": "$inter",
@@ -4288,17 +4732,19 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "usage: $tag_pod_name",
           "datasource": {
             "uid": "$datasource"
           },
+          "editorMode": "code",
           "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$mistral_namespace\", cluster=\"$cluster\",pod=~\"mistral-api.+\"}[$inter])) by (pod)",
           "format": "time_series",
           "groupBy": [
@@ -4329,6 +4775,7 @@
           "orderByTime": "ASC",
           "policy": "default",
           "query": "SELECT mean(\"value\") FROM \"cpu/usage_rate\" WHERE (\"type\" = 'pod_container' AND \"namespace_name\"='$project'  AND \"pod_name\" =~ /^mistral-api/) AND $timeFilter GROUP BY time($__interval), \"pod_name\" fill(linear)",
+          "range": true,
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -4371,7 +4818,8 @@
           "datasource": {
             "uid": "$datasource"
           },
-          "expr": "",
+          "editorMode": "code",
+          "expr": "sum by (pod) (\r\n  kube_pod_container_resource_limits_cpu_cores{\r\n    namespace=\"$mistral_namespace\",\r\n    container=\"mistral-api\"\r\n  } \r\n)\r\n",
           "format": "time_series",
           "groupBy": [
             {
@@ -4395,10 +4843,12 @@
           ],
           "hide": false,
           "intervalFactor": 1,
+          "legendFormat": "limit: {{pod}}",
           "measurement": "cpu/limit",
           "orderByTime": "ASC",
           "policy": "default",
           "query": "SELECT mean(\"value\") FROM \"cpu/limit\" WHERE (\"type\" = 'pod_container' AND \"namespace_name\" ='$project'  AND \"pod_name\" =~ /^mistral-api/) AND $timeFilter GROUP BY time($__interval), \"pod_name\" fill(linear)",
+          "range": true,
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -4512,13 +4962,15 @@
     },
     {
       "datasource": {
+        "default": false,
+        "type": "prometheus",
         "uid": "$datasource"
       },
       "description": "Displays Mistral Executor CPU usage (in cores),  CPU limit and CPU requested for each Executor pod",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
           "custom": {
             "axisBorderShow": false,
@@ -4529,7 +4981,7 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -4560,10 +5012,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -4572,8 +5020,28 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byName",
-              "options": "usage: mistral-executor-1-8gdgw"
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": null
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "A"
             },
             "properties": [
               {
@@ -4588,7 +5056,7 @@
         "h": 6,
         "w": 8,
         "x": 0,
-        "y": 32
+        "y": 48
       },
       "id": 57,
       "interval": "$inter",
@@ -4600,17 +5068,19 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "usage: $tag_pod_name",
           "datasource": {
             "uid": "$datasource"
           },
+          "editorMode": "code",
           "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$mistral_namespace\", cluster=\"$cluster\",pod=~\"mistral-executor.+\"}[$inter])) by (pod)",
           "format": "time_series",
           "groupBy": [
@@ -4641,6 +5111,7 @@
           "orderByTime": "ASC",
           "policy": "default",
           "query": "SELECT mean(\"value\") FROM \"cpu/usage_rate\" WHERE (\"type\" = 'pod_container' AND \"namespace_name\" ='$project'  AND \"pod_name\" =~ /^mistral-executor/) AND $timeFilter GROUP BY time($__interval), \"pod_name\" fill(linear)",
+          "range": true,
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -4683,7 +5154,8 @@
           "datasource": {
             "uid": "$datasource"
           },
-          "expr": "",
+          "editorMode": "code",
+          "expr": "sum by (pod) (\r\n  kube_pod_container_resource_limits_cpu_cores{\r\n    namespace=\"$mistral_namespace\",\r\n    container=\"mistral-executor\"\r\n  } \r\n)\r\n",
           "format": "time_series",
           "groupBy": [
             {
@@ -4707,10 +5179,12 @@
           ],
           "hide": false,
           "intervalFactor": 1,
+          "legendFormat": "limit: {{pod}}",
           "measurement": "cpu/limit",
           "orderByTime": "ASC",
           "policy": "default",
           "query": "SELECT mean(\"value\") FROM \"cpu/limit\" WHERE (\"type\" = 'pod_container' AND \"namespace_name\" ='$project'  AND \"pod_name\" =~ /^mistral-executor/) AND $timeFilter GROUP BY time($__interval), \"pod_name\" fill(linear)",
+          "range": true,
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -4830,7 +5304,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
           "custom": {
             "axisBorderShow": false,
@@ -4841,7 +5315,7 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -4872,10 +5346,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -4884,8 +5354,28 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byName",
-              "options": "usage: mistral-notifier-1-crfnc"
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": null
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "A"
             },
             "properties": [
               {
@@ -4900,7 +5390,7 @@
         "h": 6,
         "w": 8,
         "x": 8,
-        "y": 32
+        "y": 48
       },
       "id": 58,
       "interval": "$inter",
@@ -4912,17 +5402,19 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "usage: $tag_pod_name",
           "datasource": {
             "uid": "$datasource"
           },
+          "editorMode": "code",
           "expr": "sum(rate(container_cpu_usage_seconds_total{namespace=\"$mistral_namespace\", cluster=\"$cluster\",pod=~\"mistral-notifier.+\"}[$inter])) by (pod)",
           "format": "time_series",
           "groupBy": [
@@ -4953,6 +5445,7 @@
           "orderByTime": "ASC",
           "policy": "default",
           "query": "SELECT mean(\"value\") FROM \"cpu/usage_rate\" WHERE (\"type\" = 'pod_container' AND \"namespace_name\" ='$project'  AND \"pod_name\" =~ /^mistral-notifier/) AND $timeFilter GROUP BY time($__interval), \"pod_name\" fill(linear)",
+          "range": true,
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -4995,7 +5488,8 @@
           "datasource": {
             "uid": "$datasource"
           },
-          "expr": "",
+          "editorMode": "code",
+          "expr": "sum by (pod) (\r\n  kube_pod_container_resource_limits_cpu_cores{\r\n    namespace=\"$mistral_namespace\",\r\n    container=\"mistral-notifier\"\r\n  } \r\n)\r\n",
           "format": "time_series",
           "groupBy": [
             {
@@ -5019,10 +5513,12 @@
           ],
           "hide": false,
           "intervalFactor": 1,
+          "legendFormat": "limit: {{pod}}",
           "measurement": "cpu/limit",
           "orderByTime": "ASC",
           "policy": "default",
           "query": "SELECT mean(\"value\") FROM \"cpu/limit\" WHERE (\"type\" = 'pod_container' AND \"namespace_name\" ='$project'  AND \"pod_name\" =~ /^mistral-notifier/) AND $timeFilter GROUP BY time($__interval), \"pod_name\" fill(linear)",
+          "range": true,
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -5142,7 +5638,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
           "custom": {
             "axisBorderShow": false,
@@ -5153,7 +5649,7 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 0,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -5184,10 +5680,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -5196,13 +5688,33 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byName",
-              "options": "usage: mistral-monitoring-1-xf5h9"
+              "id": "byFrameRefID",
+              "options": "A"
             },
             "properties": [
               {
                 "id": "custom.fillOpacity",
                 "value": 10
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red",
+                      "value": null
+                    }
+                  ]
+                }
               }
             ]
           }
@@ -5212,7 +5724,7 @@
         "h": 6,
         "w": 8,
         "x": 16,
-        "y": 32
+        "y": 48
       },
       "id": 59,
       "interval": "$inter",
@@ -5224,11 +5736,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "usage: $tag_pod_name",
@@ -5307,7 +5820,8 @@
           "datasource": {
             "uid": "$datasource"
           },
-          "expr": "",
+          "editorMode": "code",
+          "expr": "sum by (pod) (\r\n  kube_pod_container_resource_limits_cpu_cores{\r\n    namespace=\"$mistral_namespace\",\r\n    container=\"mistral-monitoring\"\r\n  }\r\n)\r\n",
           "format": "time_series",
           "groupBy": [
             {
@@ -5331,10 +5845,12 @@
           ],
           "hide": false,
           "intervalFactor": 1,
+          "legendFormat": "limit: {{pod}}",
           "measurement": "cpu/limit",
           "orderByTime": "ASC",
           "policy": "default",
           "query": "SELECT mean(\"value\") FROM \"cpu/limit\" WHERE (\"type\" = 'pod_container' AND \"namespace_name\"='$project'  AND \"pod_name\" =~ /^mistral-monitoring/) AND $timeFilter GROUP BY time($__interval), \"pod_name\" fill(linear)",
+          "range": true,
           "rawQuery": true,
           "refId": "B",
           "resultFormat": "time_series",
@@ -5448,39 +5964,28 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PC3E95692D54ABCC0"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 38
+        "y": 54
       },
       "id": 34,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PC3E95692D54ABCC0"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "Mistral MEM Usage",
       "type": "row"
     },
     {
       "datasource": {
+        "default": false,
+        "type": "prometheus",
         "uid": "$datasource"
       },
       "description": "Displays Mistral Engine memory usage (in MiB),  memory limit and memory requested for each Engine pod",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
           "custom": {
             "axisBorderShow": false,
@@ -5520,12 +6025,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
+                "color": "green"
               }
             ]
           },
@@ -5541,6 +6041,17 @@
               {
                 "id": "custom.fillOpacity",
                 "value": 0
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red"
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -5575,6 +6086,13 @@
                 }
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*/"
+            },
+            "properties": []
           }
         ]
       },
@@ -5582,7 +6100,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 39
+        "y": 55
       },
       "id": 35,
       "interval": "$inter",
@@ -5594,17 +6112,19 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "usage: $tag_pod_name",
           "datasource": {
             "uid": "$datasource"
           },
+          "editorMode": "code",
           "expr": "sum(container_memory_usage_bytes{container!=\"POD\",image!=\"\",namespace=\"$mistral_namespace\", cluster=\"$cluster\",container=~\"mistral-engine\"}) by (pod)",
           "format": "time_series",
           "groupBy": [
@@ -5634,6 +6154,7 @@
           "orderByTime": "ASC",
           "policy": "default",
           "query": "SELECT mean(\"value\") FROM \"memory/usage\" WHERE (\"type\" = 'pod_container' AND \"namespace_name\" ='$project'  AND \"pod_name\" =~ /^mistral-engine/) AND $timeFilter GROUP BY time($__interval), \"pod_name\" fill(none)",
+          "range": true,
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -5670,6 +6191,19 @@
               "value": "/^mistral-engine/"
             }
           ]
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "sum by (pod)(\r\n  kube_pod_container_resource_limits{namespace=\"$mistral_namespace\", resource=\"memory\",container=~\"mistral-engine\"}\r\n)\r\n",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "limit: {{pod}}",
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Mistral Engine MEM Usage",
@@ -5677,13 +6211,15 @@
     },
     {
       "datasource": {
+        "default": false,
+        "type": "prometheus",
         "uid": "$datasource"
       },
       "description": "Displays Mistral Executor memory usage (in MiB),  memory limit and memory requested for each Executor pod",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
           "custom": {
             "axisBorderShow": false,
@@ -5723,12 +6259,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
+                "color": "green"
               }
             ]
           },
@@ -5744,6 +6275,17 @@
               {
                 "id": "custom.fillOpacity",
                 "value": 0
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red"
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -5765,7 +6307,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 39
+        "y": 55
       },
       "id": 36,
       "interval": "$inter",
@@ -5777,17 +6319,19 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "usage: $tag_pod_name",
           "datasource": {
             "uid": "$datasource"
           },
+          "editorMode": "code",
           "expr": "sum(container_memory_usage_bytes{container!=\"POD\",image!=\"\",namespace=\"$mistral_namespace\", cluster=\"$cluster\",container=~\"mistral-executor\"}) by (pod)",
           "format": "time_series",
           "groupBy": [
@@ -5817,6 +6361,7 @@
           "orderByTime": "ASC",
           "policy": "default",
           "query": "SELECT mean(\"value\") FROM \"memory/usage\" WHERE (\"type\" = 'pod_container' AND \"namespace_name\" ='$project'  AND \"pod_name\" =~ /^mistral-executor/) AND $timeFilter GROUP BY time($__interval), \"pod_name\" fill(none)",
+          "range": true,
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -5853,6 +6398,19 @@
               "value": "/^mistral-executor/"
             }
           ]
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "sum by (pod)(\r\n  kube_pod_container_resource_limits{namespace=\"$mistral_namespace\", resource=\"memory\",container=~\"mistral-executor\"}\r\n)\r\n",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "limit: {{pod}}",
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Mistral Executor MEM Usage",
@@ -5860,13 +6418,15 @@
     },
     {
       "datasource": {
+        "default": false,
+        "type": "prometheus",
         "uid": "$datasource"
       },
       "description": "Displays Mistral API memory usage (in MiB),  memory limit and memory requested for each API pod",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
           "custom": {
             "axisBorderShow": false,
@@ -5906,12 +6466,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
+                "color": "green"
               }
             ]
           },
@@ -5927,6 +6482,17 @@
               {
                 "id": "custom.fillOpacity",
                 "value": 0
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red"
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -5948,7 +6514,7 @@
         "h": 6,
         "w": 8,
         "x": 0,
-        "y": 45
+        "y": 61
       },
       "id": 37,
       "interval": "$inter",
@@ -5960,11 +6526,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "usage: $tag_pod_name",
@@ -6036,6 +6603,19 @@
               "value": "/^mistral-api/"
             }
           ]
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "sum by (pod)(\r\n  kube_pod_container_resource_limits{namespace=\"$mistral_namespace\", resource=\"memory\",container=~\"mistral-engine\"}\r\n)\r\n",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "limit: {{pod}}",
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Mistral API MEM Usage",
@@ -6043,13 +6623,15 @@
     },
     {
       "datasource": {
+        "default": false,
+        "type": "prometheus",
         "uid": "$datasource"
       },
       "description": "Displays Mistral Notifier memory usage (in MiB),  memory limit and memory requested for each Notifier pod",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
           "custom": {
             "axisBorderShow": false,
@@ -6089,12 +6671,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
+                "color": "green"
               }
             ]
           },
@@ -6110,6 +6687,17 @@
               {
                 "id": "custom.fillOpacity",
                 "value": 0
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red"
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -6131,7 +6719,7 @@
         "h": 6,
         "w": 8,
         "x": 8,
-        "y": 45
+        "y": 61
       },
       "id": 38,
       "interval": "$inter",
@@ -6143,17 +6731,19 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "usage: $tag_pod_name",
           "datasource": {
             "uid": "$datasource"
           },
+          "editorMode": "code",
           "expr": "sum(container_memory_usage_bytes{container!=\"POD\",image!=\"\",namespace=\"$mistral_namespace\", cluster=\"$cluster\",container=~\"mistral-notifier\"}) by (pod)",
           "format": "time_series",
           "groupBy": [
@@ -6183,6 +6773,7 @@
           "orderByTime": "ASC",
           "policy": "default",
           "query": "SELECT mean(\"value\") FROM \"memory/usage\" WHERE (\"type\" = 'pod_container' AND \"namespace_name\"='$project'  AND \"pod_name\" =~ /^mistral-notifier/) AND $timeFilter GROUP BY time($__interval), \"pod_name\" fill(none)",
+          "range": true,
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -6219,6 +6810,19 @@
               "value": "/^mistral-notifier/"
             }
           ]
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "sum by (pod)(\r\n  kube_pod_container_resource_limits{namespace=\"$mistral_namespace\", resource=\"memory\",container=~\"mistral-notifier\"}\r\n)\r\n",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "limit: {{pod}}",
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Mistral Notifier MEM Usage",
@@ -6226,13 +6830,15 @@
     },
     {
       "datasource": {
+        "default": false,
+        "type": "prometheus",
         "uid": "$datasource"
       },
       "description": "Displays Mistral Monitoring memory usage (in MiB),  memory limit and memory requested for each Monitoring pod",
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
           "custom": {
             "axisBorderShow": false,
@@ -6272,12 +6878,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
+                "color": "green"
               }
             ]
           },
@@ -6293,6 +6894,17 @@
               {
                 "id": "custom.fillOpacity",
                 "value": 0
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "red"
+                    }
+                  ]
+                }
               }
             ]
           },
@@ -6314,7 +6926,7 @@
         "h": 6,
         "w": 8,
         "x": 16,
-        "y": 45
+        "y": 61
       },
       "id": 39,
       "interval": "$inter",
@@ -6326,17 +6938,19 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "usage: $tag_pod_name",
           "datasource": {
             "uid": "$datasource"
           },
+          "editorMode": "code",
           "expr": "sum(container_memory_usage_bytes{container!=\"POD\",image!=\"\",namespace=\"$mistral_namespace\", cluster=\"$cluster\",container=~\"mistral-monitoring\"}) by (pod)",
           "format": "time_series",
           "groupBy": [
@@ -6366,6 +6980,7 @@
           "orderByTime": "ASC",
           "policy": "default",
           "query": "SELECT mean(\"value\") FROM \"memory/usage\" WHERE (\"type\" = 'pod_container' AND \"namespace_name\" ='$project'  AND \"pod_name\" =~ /^mistral-monitoring/) AND $timeFilter GROUP BY time($__interval), \"pod_name\" fill(none)",
+          "range": true,
           "rawQuery": true,
           "refId": "A",
           "resultFormat": "time_series",
@@ -6402,6 +7017,19 @@
               "value": "/^mistral-monitoring/"
             }
           ]
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "expr": "sum by (pod)(\r\n  kube_pod_container_resource_limits{namespace=\"$mistral_namespace\", resource=\"memory\",container=~\"mistral-monitoring\"}\r\n)\r\n",
+          "hide": false,
+          "instant": false,
+          "legendFormat": "limit: {{pod}}",
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Mistral Monitoring MEM Usage",
@@ -6409,27 +7037,14 @@
     },
     {
       "collapsed": false,
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PC3E95692D54ABCC0"
-      },
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 51
+        "y": 67
       },
       "id": 44,
       "panels": [],
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PC3E95692D54ABCC0"
-          },
-          "refId": "A"
-        }
-      ],
       "title": "RabbitMQ",
       "type": "row"
     },
@@ -6460,8 +7075,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "#3f6833",
-                "value": null
+                "color": "#3f6833"
               },
               {
                 "color": "#890f02",
@@ -6480,7 +7094,7 @@
         "h": 6,
         "w": 6,
         "x": 0,
-        "y": 52
+        "y": 68
       },
       "id": 70,
       "maxDataPoints": 100,
@@ -6600,8 +7214,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -6617,7 +7230,7 @@
         "h": 6,
         "w": 6,
         "x": 6,
-        "y": 52
+        "y": 68
       },
       "id": 48,
       "interval": "$inter",
@@ -6629,11 +7242,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "Messages count",
@@ -6746,8 +7360,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -6763,7 +7376,7 @@
         "h": 6,
         "w": 6,
         "x": 12,
-        "y": 52
+        "y": 68
       },
       "id": 72,
       "interval": "$inter",
@@ -6775,11 +7388,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "Messages count",
@@ -6892,8 +7506,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -6909,7 +7522,7 @@
         "h": 6,
         "w": 6,
         "x": 18,
-        "y": 52
+        "y": 68
       },
       "id": 71,
       "interval": "$inter",
@@ -6921,11 +7534,12 @@
           "showLegend": true
         },
         "tooltip": {
+          "hideZeros": false,
           "mode": "multi",
           "sort": "none"
         }
       },
-      "pluginVersion": "7.1.0",
+      "pluginVersion": "11.5.2",
       "targets": [
         {
           "alias": "Messages count",
@@ -7011,7 +7625,6 @@
         "name": "datasource",
         "options": [],
         "query": "prometheus",
-        "queryValue": "",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -7023,20 +7636,20 @@
         "auto_min": "1m",
         "current": {
           "selected": false,
-          "text": "2m",
-          "value": "2m"
+          "text": "auto",
+          "value": "$__auto_interval_inter"
         },
         "hide": 0,
         "label": "Sampling",
         "name": "inter",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "auto",
             "value": "$__auto_interval_inter"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "2m",
             "value": "2m"
           },
@@ -7070,8 +7683,8 @@
       {
         "current": {
           "selected": false,
-          "text": "mistral-vaze",
-          "value": "mistral-vaze"
+          "text": "mistral-saar",
+          "value": "mistral-saar"
         },
         "datasource": {
           "type": "prometheus",
@@ -7089,10 +7702,7 @@
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
-        "tagValuesQuery": "",
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
+        "type": "query"
       },
       {
         "current": {
@@ -7125,7 +7735,7 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -7139,21 +7749,10 @@
       "1h",
       "2h",
       "1d"
-    ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
     ]
   },
   "timezone": "browser",
   "title": "Mistral Overview",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
