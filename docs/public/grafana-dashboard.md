@@ -38,6 +38,8 @@ The following images displays the Mistral applications status:
 * `Mistral Engine pods` - Displays the current number of available Mistral Engine pods.
 * `Mistral Notifier pods` - Displays the current number of available Mistral Notifier pods.
 * `Mistral Monitoring pods` - Displays the current number of available Mistral Monitoring pods.
+* `Mistral pods restart count` – Displays the total number of restarts for each Mistral pod over the selected time range. 
+* `Mistral pod restarts by reason` – Shows the reason for the most recent container termination (for example, OOMKilled, Error, or Completed) for each Mistral pod.
 
 ## Total Mistral Entities
 
@@ -49,6 +51,8 @@ The following images displays the total Mistral entities:
 * `Task count by state` - Displays the tasks count by state.
 * `Delayed calls count by target` - Displays the delayed calls count by target.
 * `Action count by state` - Displays the actions count by state.
+* `Mistral 50 task retries` – Displays how many times the latest 50 Mistral tasks were retried.
+* `Latest 50 Workflow Executions` - Displays the 50 most recent workflow executions based on their creation time.
 
 ## Mistral CPU Usage
 
