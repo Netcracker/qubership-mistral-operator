@@ -5,9 +5,9 @@
 # Name of MistralService Custom Resource
 name: mistral-service
 
-operatorImage: "ghcr.io/netcracker/qubership-mistral-operator:main"
+operatorImage: "ghcr.io/netcracker/qubership-mistral-operator:feature_monitoring-service"
 operator:
-  imagePullPolicy: IfNotPresent
+  imagePullPolicy: Always
   priorityClassName: ""
   resources:
     requests:
@@ -18,7 +18,7 @@ operator:
       memory: 300Mi
 
 mistral:
-  dockerImage: "ghcr.io/netcracker/qubership-mistral:main"
+  dockerImage: "ghcr.io/netcracker/qubership-mistral:feature_monitoring-service"
   cloudIntegrationEnabled: true
   liteEnabled: false
   ingress:
