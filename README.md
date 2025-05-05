@@ -11,7 +11,7 @@ The repository stucture is described below.
 * `./delete-dvm-deploy-artifacts` - contains script for cleanup cleaning up Mistral's resources
 * `./deploy` - description
 * `./deployments` - directory with HELM charts for the Mistral
-* `./docs` - directory with actual documentation for the service.
+* `./docs` - directory with actual documentation for the service
 * `./src` - directory with operator source code, which is used for running the Mistral
 
 ## How to Start
