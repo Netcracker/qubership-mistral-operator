@@ -75,7 +75,7 @@ spec:
           {{ end }}
           env:
             - name: OPERATOR_ID
-              value: {{ sha1sum .Values.operatorImage }}
+              value: {{ template "mistral.operatorId" . }}
             - name: WATCH_NAMESPACE
               valueFrom:
                 fieldRef:
