@@ -60,7 +60,7 @@ spec:
 
       containers:
         - name: mistral-operator
-          image: {{ .Values.operatorImage }}
+          image: {{ template "mistral.operatorImage" . }}
           {{ if .Values.operator }}
           imagePullPolicy: {{ default "IfNotPresent" .Values.operator.pullPolicy }}
           securityContext:
@@ -157,7 +157,7 @@ spec:
         {{- end }}
         {{- if eq (include "bluegreenAgent.enabled" .) "true" }}
         - name: bluegreen-agent
-          image: {{ .Values.bluegreenAgent.image }}
+          image: {{ {{ template "mistral.blueGreenAgentImage" . }} }}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
