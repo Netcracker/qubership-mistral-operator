@@ -157,7 +157,7 @@ spec:
         {{- end }}
         {{- if eq (include "bluegreenAgent.enabled" .) "true" }}
         - name: bluegreen-agent
-          image: {{ {{ template "mistral.blueGreenAgentImage" . }} }}
+          image: {{ template "mistral.blueGreenAgentImage" . }}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
