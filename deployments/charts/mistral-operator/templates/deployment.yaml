@@ -86,6 +86,8 @@ spec:
                   fieldPath: metadata.name
             - name: OPERATOR_DELETE_RESOURCES
               value: "False"
+            - name: IDP_SECRET_API_GROUP
+              value: {{ .Values.disasterRecovery.siteManagerApiGroup }}
           volumeMounts:
             - name: idp-api-certs
               mountPath: /opt/operator/mount_configs

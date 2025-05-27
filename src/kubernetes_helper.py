@@ -1566,7 +1566,7 @@ class KubernetesHelper:
                 body = client.V1Secret(
                     metadata=V1ObjectMeta(
                         name=MC.CLOUD_CORE_SECRET,
-                        labels={'core.qubership.org/secret-type': 'm2m'}
+                        labels={f'core.{MC.IDP_SECRET_API_GROUP}/secret-type': 'm2m'}
                     )
                 )
                 body.api_version = 'v1'
