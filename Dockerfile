@@ -1,4 +1,4 @@
-FROM python:3.10.14-alpine3.20
+FROM python:3.10.17-alpine3.22
 
 ENV WORKDIR=/opt/operator/ \
     USER_UID=1001 \
@@ -22,7 +22,7 @@ COPY build/entrypoint /usr/local/bin
 
 RUN pip install --upgrade pip==23.3 && pip install -r requirements.txt
 
-RUN pip install --upgrade pip==23.3 "setuptools==70.0.0"
+# RUN pip install --upgrade pip==23.3 "setuptools==70.0.0"
 
 COPY src/handler.py ${WORKDIR}
 COPY src/mistral_constants.py ${WORKDIR}

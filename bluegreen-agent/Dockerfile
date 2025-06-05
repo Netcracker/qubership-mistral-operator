@@ -1,4 +1,4 @@
-FROM python:3.10.13-alpine3.19
+FROM python:3.10.17-alpine3.22
 
 WORKDIR /app
 RUN echo 'https://dl-cdn.alpinelinux.org/alpine/v3.20/main/' > /etc/apk/repositories && \
@@ -10,7 +10,7 @@ COPY requirements.txt .
 
 RUN pip install --upgrade pip==23.3 && pip install -r requirements.txt
 
-RUN pip install --upgrade pip==23.3 "setuptools==70.0.0"
+# RUN pip install --upgrade pip==23.3 "setuptools==70.0.0"
 
 COPY . .
 
