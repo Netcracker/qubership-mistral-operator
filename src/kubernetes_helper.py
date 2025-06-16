@@ -240,6 +240,12 @@ class KubernetesHelper:
                         key='pg-admin-password',
                         name=MC.MISTRAL_SECRET))),
             V1EnvVar(
+                name='PG_IDLE_TIMEOUT',
+                value_from=V1EnvVarSource(
+                    config_map_key_ref=V1ConfigMapKeySelector(
+                        key='pg-idle-timeout',
+                        name=MC.COMMON_CONFIGMAP))),
+            V1EnvVar(
                 name='RABBIT_USER',
                 value_from=V1EnvVarSource(
                     secret_key_ref=V1SecretKeySelector(
@@ -468,6 +474,12 @@ class KubernetesHelper:
                                     key='pg-port',
                                     name=MC.COMMON_CONFIGMAP))),
                         V1EnvVar(
+                            name='PG_IDLE_TIMEOUT',
+                            value_from=V1EnvVarSource(
+                                config_map_key_ref=V1ConfigMapKeySelector(
+                                    key='pg-idle-timeout',
+                                    name=MC.COMMON_CONFIGMAP))),
+                        V1EnvVar(
                             name='PG_ADMIN_USER',
                             value_from=V1EnvVarSource(
                                 secret_key_ref=V1SecretKeySelector(
@@ -694,6 +706,12 @@ class KubernetesHelper:
                 value_from=V1EnvVarSource(
                     config_map_key_ref=V1ConfigMapKeySelector(
                         key='pg-port',
+                        name=MC.COMMON_CONFIGMAP))),
+            V1EnvVar(
+                name='PG_IDLE_TIMEOUT',
+                value_from=V1EnvVarSource(
+                    config_map_key_ref=V1ConfigMapKeySelector(
+                        key='pg-idle-timeout',
                         name=MC.COMMON_CONFIGMAP))),
             V1EnvVar(
                 name='KAFKA_NOTIFICATIONS_ENABLED',
@@ -1293,6 +1311,12 @@ class KubernetesHelper:
                         key='pg-port',
                         name=MC.COMMON_CONFIGMAP))),
             V1EnvVar(
+                name='PG_IDLE_TIMEOUT',
+                value_from=V1EnvVarSource(
+                    config_map_key_ref=V1ConfigMapKeySelector(
+                        key='pg-idle-timeout',
+                        name=MC.COMMON_CONFIGMAP))),
+            V1EnvVar(
                 name='AUTH_ENABLE',
                 value_from=V1EnvVarSource(
                     config_map_key_ref=V1ConfigMapKeySelector(
@@ -1869,6 +1893,7 @@ class KubernetesHelper:
             'pg-db-name': str(configmap['postgres']['dbName']),
             'pg-host': str(configmap['postgres']['host']),
             'pg-port': str(configmap['postgres']['port']),
+            'pg-idle-timeout': str(configmap['postgres']['idleTimeout']),
             'queue-name-prefix': str(configmap['queueNamePrefix']),
             'rabbit-host': str(configmap['rabbit']['host']),
             'rabbit-port': str(configmap['rabbit']['port']),
@@ -2096,6 +2121,12 @@ class KubernetesHelper:
                 value_from=V1EnvVarSource(
                     config_map_key_ref=V1ConfigMapKeySelector(
                         key='pg-port',
+                        name=MC.COMMON_CONFIGMAP))),
+            V1EnvVar(
+                name='PG_IDLE_TIMEOUT',
+                value_from=V1EnvVarSource(
+                    config_map_key_ref=V1ConfigMapKeySelector(
+                        key='pg-idle-timeout',
                         name=MC.COMMON_CONFIGMAP))),
             V1EnvVar(
                 name='PG_ADMIN_USER',

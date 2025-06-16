@@ -327,6 +327,8 @@ spec:
                         port:
                           format: int64
                           type: integer
+                        idleTimeout:
+                          type: string
                       type: object
                     queueNamePrefix:
                       type: string
@@ -4881,6 +4883,8 @@ spec:
                         port:
                           format: int64
                           type: integer
+                        idleTimeout:
+                          type: string
                       type: object
                     queueNamePrefix:
                       type: string

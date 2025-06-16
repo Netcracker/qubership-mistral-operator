@@ -229,6 +229,7 @@ spec:
       dbName: {{ (include "mistral.pgDbName" .) }}
       host: {{ (include "mistral.pgHost" .) }}
       port: {{ (include "mistral.pgPort" .) }}
+      idleTimeout: {{ (include "mistral.idleTimeout" .) }}
     queueNamePrefix: {{ .Values.mistralCommonParams.queueNamePrefix }}
     rabbit:
       host: {{ .Values.mistralCommonParams.rabbit.host }}

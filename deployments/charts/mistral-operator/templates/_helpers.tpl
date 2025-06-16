@@ -175,6 +175,17 @@ Postgres DB name for Mistral
 {{- end -}}
 
 {{/*
+Postgres transaction idle in session timeout Mistral
+*/}}
+{{- define "mistral.idleTimeout" -}}
+  {{- if .Values.mistralCommonParams.postgres.idleTimeout }}
+    {{- .Values.mistralCommonParams.postgres.idleTimeout }}
+  {{- else -}}
+    {{- printf "30s" }}
+  {{- end -}}
+{{- end -}}
+
+{{/*
 RabbitMQ VHost name for Mistral
 */}}
 {{- define "mistral.rabbitmqVHost" -}}

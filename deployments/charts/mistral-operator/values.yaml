@@ -192,6 +192,7 @@ mistralCommonParams:
     dbName: ''
     host: 'pg-patroni.postgresql'
     port: '5432'
+    idleTimeout: '30s'
   kafkaNotifications:
     enabled: 'True'
     host: 'kafka.kafka:9092'

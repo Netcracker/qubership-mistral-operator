@@ -6,7 +6,7 @@ This chapter describes the prerequisites, best practices, parameters, and proced
 
 # Prerequisites
 
-The prerequistes information is given below.
+The prerequisites are as follows:
 
 ## Common
 
@@ -262,7 +262,7 @@ Recommended for deployments with high workload and a large amount of data. For e
 
 # Parameters
 
-The parameters information is specified in the below sections.
+The different parameteres are described below.
 
 ## General Parameters
 
@@ -275,6 +275,7 @@ The general parameters used for the configurations are specified in the followin
 |mistralCommonParams.postgres.host|string|yes|'pg-patroni.postgres-service'|This parameter specifies the Postrges host.|
 |mistralCommonParams.postgres.port|int|yes|5432|This parameter specifies the Postgres port.|
 |mistralCommonParams.postgres.dbName|string|yes|'mistral'|This parameter specifies the Postgres database name.|
+|mistralCommonParams.postgres.idleTimeout|string|yes| '30s'                         | This parameter specifies the timeout for queries in state idle in transaction session. Use '0' as value to disable the timeout. |
 |secrets.pgAdminPassword|string|yes|''|This parameter specifies the Postgres admin password.|
 |secrets.pgAdminUser|string|yes|'postgres'|This parameter specifies the Postgres admin user.|
 |secrets.pgPassword|string|yes|'mistral_password'|This parameter specifies the Postgres password.|
@@ -299,7 +300,7 @@ The general parameters used for the configurations are specified in the followin
 
 ## Mistral Ingress Parameters
 
-The Mistral Ingress parameters are as follows:
+The Mistral Ingress parameters used for the configurations are specified in the following table.
 
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
@@ -308,7 +309,7 @@ The Mistral Ingress parameters are as follows:
 
 ## Mistral Authentication Parameters
 
-The Mistral Authentication parameters are as follows:
+The Mistral Authentication parameters used for the configurations are specified in the following table.
 
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
@@ -326,7 +327,7 @@ The Mistral Authentication parameters are as follows:
 
 ## Kafka Notification Parameters
 
-The Kafka Notification parameters are as follows:
+The Kafka Notification parameters used for the configurations are specified in the following table.
 
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
@@ -343,7 +344,7 @@ The Kafka Notification parameters are as follows:
 
 The Horizontal Pod Autoscalers parameters are as follows:
 
-**Note: API metrics need to be installed on k8s cluster**
+**Note**: API metrics need to be installed on k8s cluster.
 
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
@@ -358,7 +359,7 @@ The Horizontal Pod Autoscalers parameters are as follows:
 
 ## Mistral API Parameters
 
-The Mistral API parameters are as follows:
+The Mistral API parameters are specified below.
 
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
@@ -372,7 +373,7 @@ The Mistral API parameters are as follows:
 
 ## Mistral Monitoring Parameters
 
-The Mistral Monitoring parameters are as follows:
+The Mistral Monitoring parameters are specified below.
 
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
@@ -392,7 +393,7 @@ The Mistral Monitoring parameters are as follows:
 
 ## Mistral Executor Parameters
 
-The Mistral Executor parameters are as follows:
+The Mistral Executor parameters are specified below.
 
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
@@ -412,7 +413,7 @@ The Mistral Executor parameters are as follows:
 
 ## Mistral Engine Parameters
 
-The Mistral Engine parameters are as follows:
+The Mistral Engine parameters are specified below.
 
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
@@ -426,7 +427,7 @@ The Mistral Engine parameters are as follows:
 
 ## Mistral Notifier Parameters
 
-The Mistral Notifier parameters are as follows:
+The Mistral Notifier parameters are specified below.
 
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
@@ -440,7 +441,7 @@ The Mistral Notifier parameters are as follows:
 
 ## Mistral UpdateDB Pod parameters
 
-The Mistral UpdateDB Pod parameters are as follows:
+The Mistral UpdateDB Pod parameters are specified below.
 
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
@@ -451,7 +452,7 @@ The Mistral UpdateDB Pod parameters are as follows:
 
 ## Mistral Lite Parameters
 
-The Mistral Lite parameters are as follows:
+The Mistral Lite parameters are specified below.
 
 |Parameter   |Type  |Mandatory|Default value|Description                                                        |
 |------------|------|---------|-------------|-------------------------------------------------------------------|
@@ -567,6 +568,7 @@ mistralCommonParams:
     dbName: 'mistral_service'
     host: 'pg-patroni.postgresql'
     port: '5432'
+    idleTimeout: '30s'
   queueNamePrefix: 'mistral'
   rabbit:
     host: 'rabbitmq.rabbitmq'
@@ -604,6 +606,7 @@ mistralCommonParams:
     dbName: 'mistral_service'
     host: 'pg-patroni.postgresql'
     port: '5432'
+    idleTimeout: '30s'
   queueNamePrefix: 'mistral'
   rabbit:
     host: 'rabbitmq.rabbitmq'
