@@ -62,7 +62,7 @@ spec:
         - name: mistral-operator
           image: {{ template "mistral.operatorImage" . }}
           {{ if .Values.operator }}
-          imagePullPolicy: {{ default "IfNotPresent" .Values.operator.pullPolicy }}
+          imagePullPolicy: {{ default "IfNotPresent" .Values.operator.imagePullPolicy }}
           securityContext:
             {{- include "restricted.globalContainerSecurityContext" . | nindent 12 }}
           resources:
@@ -160,11 +160,8 @@ spec:
         {{- if eq (include "bluegreenAgent.enabled" .) "true" }}
         - name: bluegreen-agent
           image: {{ template "mistral.blueGreenAgentImage" . }}
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 8000
-              protocol: TCP
-              name: bluegreen-agent
+          {{ if .Values.bluegreenAgent }}
+          imagePullPolicy: {{ default "IfNotPresent" .Values.bluegreenAgent.imagePullPolicy }}
           securityContext:
             {{- include "restricted.globalContainerSecurityContext" . | nindent 12 }}
           resources:
@@ -174,6 +171,11 @@ spec:
             requests:
               cpu: {{ .Values.bluegreenAgent.resources.requests.cpu }}
               memory: {{ .Values.bluegreenAgent.resources.requests.memory }}
+          {{ end }}
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+              name: bluegreen-agent
           env:
             - name: NAMESPACE
               valueFrom:

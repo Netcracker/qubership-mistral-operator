@@ -161,6 +161,7 @@ integrationTests:
 bluegreenAgent:
   enabled: False
   image: "ghcr.io/netcracker/qubership-mistral-operator-bluegreen-agent:main"
+  imagePullPolicy: IfNotPresent
   resources:
     limits:
       cpu: 50m
