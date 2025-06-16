@@ -18,16 +18,16 @@ spec:
         name: mistral-operator
         app.kubernetes.io/name: {{ default "mistral-operator" .Values.kubernetesLabels.mistralOperator.name }}
         app.kubernetes.io/component: {{ default "mistral-operator" .Values.kubernetesLabels.mistralOperator.component }}
-        {{- if .Values.kubernetesLabels.mistralOperator.instance }}
+        {{ if .Values.kubernetesLabels.mistralOperator.instance }}
         app.kubernetes.io/instance: {{ .Values.kubernetesLabels.mistralOperator.instance }}
-        {{- else }}
+        {{ else }}
         app.kubernetes.io/instance: mistral-operator-{{ .Release.Namespace }}
-        {{- end }}
-        {{- if .Values.kubernetesLabels.mistralOperator.version }}
+        {{ end }}
+        {{ if .Values.kubernetesLabels.mistralOperator.version }}
         app.kubernetes.io/version: {{ .Values.kubernetesLabels.mistralOperator.version }}
-        {{- else }}
+        {{ else }}
         app.kubernetes.io/version: {{ .Chart.Version }}
-        {{- end }}
+        {{ end }}
         app.kubernetes.io/part-of: {{ default "mistral" .Values.kubernetesLabels.mistralOperator.partOf }}
         app.kubernetes.io/managed-by: {{ default "Helm" .Values.kubernetesLabels.mistralOperator.managedBy }}
 {{- with .Values.labels }}
@@ -42,11 +42,11 @@ spec:
             items:
               - key: ca.crt
                 path: ca.crt
-        {{- if .Values.SSL_SECRET }}
+        {{ if .Values.SSL_SECRET }}
         - name: sslsecret
           secret:
             secretName: {{ .Values.SSL_SECRET }}
-        {{- end }}
+        {{ end }}
         {{- if and (eq (include "mistral.enableTls" .) "true") (include "mistral.tlsSecretName" .) }}
         - name: mistral-tls-certs
           secret:
@@ -61,7 +61,7 @@ spec:
       containers:
         - name: mistral-operator
           image: {{ template "mistral.operatorImage" . }}
-          {{- if .Values.operator }}
+          {{ if .Values.operator }}
           imagePullPolicy: {{ default "IfNotPresent" .Values.operator.pullPolicy }}
           securityContext:
             {{- include "restricted.globalContainerSecurityContext" . | nindent 12 }}
@@ -72,7 +72,7 @@ spec:
             requests:
               cpu: {{ default "100m" .Values.operator.resources.requests.cpu }}
               memory: {{ default "100Mi" .Values.operator.resources.requests.memory }}
-          {{- end }}
+          {{ end }}
           env:
             - name: OPERATOR_ID
               value: {{ template "mistral.operatorId" . }}
@@ -91,10 +91,10 @@ spec:
           volumeMounts:
             - name: idp-api-certs
               mountPath: /opt/operator/mount_configs
-            {{- if .Values.SSL_SECRET }}
+            {{ if .Values.SSL_SECRET }}
             - name: sslsecret
               mountPath: /opt/operator/mount_secrets
-            {{- end }}
+            {{ end }}
             {{- if and (eq (include "mistral.enableTls" .) "true") (include "mistral.tlsSecretName" .) }}
             - name: mistral-tls-certs
               mountPath: /tls
