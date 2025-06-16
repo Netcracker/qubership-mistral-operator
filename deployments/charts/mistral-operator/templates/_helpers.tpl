@@ -352,7 +352,7 @@ Whether bluegreenAgent is enabled
 
 
 {{/*
-Define if we need perform db cleanuo
+Define if we need perform db cleanup
 */}}
 {{- define "mistral.cleanup" -}}
 {{- if and (hasKey .Values.mistralCommonParams "cleanup") (ne .Values.mistralCommonParams.cleanup "") }}
