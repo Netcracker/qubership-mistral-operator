@@ -21,7 +21,7 @@ spec:
     before: []
     sequence: ["standby", "active"]
     allowedStandbyStateList: ["down"]
-    timeout: 360
+    timeout: {{ default 360 .Values.disasterRecovery.timeout }}
     parameters:
       serviceEndpoint: "{{ template "disasterRecovery.protocol" . }}mistral-disaster-recovery.{{ .Release.Namespace }}.svc.cluster.local:8068/sitemanager"
       healthzEndpoint: "{{ template "disasterRecovery.protocol" . }}mistral-disaster-recovery.{{ .Release.Namespace }}.svc.cluster.local:8068/healthz"

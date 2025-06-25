@@ -134,6 +134,7 @@ disasterRecovery:
     customAudience: "sm-services"
   mode: ""
   siteManagerEnabled: false
+  timeout: 360
   siteManagerApiGroup: "qubership.org"
   afterServices: []
   resources:
