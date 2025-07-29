@@ -10,4 +10,4 @@ charts:
       - ghcr.io/netcracker/qubership-mistral-operator-transfer:${release}
       - ghcr.io/netcracker/qubership-mistral:${release}
       - ghcr.io/netcracker/qubership-mistral-tests:${release}
-      - ghcr.io/netcracker/disaster-recovery-daemon:v0.4.5
+      - ghcr.io/netcracker/qubership-disaster-recovery-daemon:v0.4.5
