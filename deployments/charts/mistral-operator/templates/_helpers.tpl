@@ -461,3 +461,28 @@ Protocol for DRD
   {{- "http://" -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Determining whether IDP JWK Secrets should be populated
+*/}}
+{{- define "idpJwkSecrets.populate" -}}
+{{- $cci := toString (default false .Values.CLOUD_CORE_INTEGRATION_ENABLED) | lower -}}
+{{- $auth := toString (default false .Values.mistralCommonParams.auth.enable) | lower -}}
+{{- if or (eq $cci "true") (eq $auth "true") -}}
+  {{- if and
+    (not (empty .Values.secrets.idpJwkExp))
+    (ne  (toString .Values.secrets.idpJwkExp) "null")
+  -}}
+idp-jwk-exp: {{ .Values.secrets.idpJwkExp | b64enc }}
+  {{- end -}}
+  {{- if and
+    (not (empty .Values.secrets.idpJwkMod))
+    (ne  (toString .Values.secrets.idpJwkMod) "null")
+  -}}
+idp-jwk-mod: {{ .Values.secrets.idpJwkMod | b64enc }}
+  {{- end -}}
+{{- else -}}
+idp-jwk-exp: {{ .Values.secrets.idpJwkExp | b64enc }}
+idp-jwk-mod: {{ .Values.secrets.idpJwkMod | b64enc }}
+{{- end -}}
+{{- end -}}
