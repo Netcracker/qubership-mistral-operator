@@ -1492,8 +1492,17 @@ class KubernetesHelper:
 
         secret_data = secret.data
 
-        idp_jwk_exp = self.decode_secret(secret_data['idp-jwk-exp'])
-        idp_jwk_mod = self.decode_secret(secret_data['idp-jwk-mod'])
+        idp_jwk_exp_enc = secret_data.get("idp-jwk-exp")
+        if idp_jwk_exp_enc:
+            idp_jwk_exp = self.decode_secret(idp_jwk_exp_enc)
+        else:
+            idp_jwk_exp = None
+
+        idp_jwk_mod_enc = secret_data.get("idp-jwk-mod")
+        if idp_jwk_mod_enc:
+            idp_jwk_mod = self.decode_secret(idp_jwk_mod_enc)
+        else:
+            idp_jwk_mod = None
 
         if idp_jwk_exp and idp_jwk_mod and \
                 idp_jwk_exp != 'null' and idp_jwk_mod != 'null':
@@ -1582,12 +1591,17 @@ class KubernetesHelper:
                         "skipping client generation.")
             return
 
-        idp_client_id = base64.b64decode(
-            secret_data['idp-client-id']
-        ).decode("utf-8")
-        idp_client_secret = base64.b64decode(
-            secret_data['idp-client-secret']
-        ).decode("utf-8")
+        idp_client_id_enc = secret_data.get("idp-client-id")
+        if idp_client_id_enc:
+            idp_client_id = self.decode_secret(idp_client_id_enc)
+        else:
+            idp_client_id = None
+
+        idp_client_secret_enc = secret_data.get("idp-client-secret")
+        if idp_client_secret_enc:
+            idp_client_secret = self.decode_secret(idp_client_secret_enc)
+        else:
+            idp_client_secret = None
 
         if idp_client_id and idp_client_secret and \
                 idp_client_id != 'null' and idp_client_secret != 'null':

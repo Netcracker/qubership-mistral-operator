@@ -175,6 +175,17 @@ Postgres DB name for Mistral
 {{- end -}}
 
 {{/*
+Postgres transaction idle in session timeout Mistral
+*/}}
+{{- define "mistral.idleTimeout" -}}
+  {{- if .Values.mistralCommonParams.postgres.idleTimeout }}
+    {{- .Values.mistralCommonParams.postgres.idleTimeout }}
+  {{- else -}}
+    {{- printf "30s" }}
+  {{- end -}}
+{{- end -}}
+
+{{/*
 RabbitMQ VHost name for Mistral
 */}}
 {{- define "mistral.rabbitmqVHost" -}}
@@ -352,7 +363,7 @@ Whether bluegreenAgent is enabled
 
 
 {{/*
-Define if we need perform db cleanuo
+Define if we need perform db cleanup
 */}}
 {{- define "mistral.cleanup" -}}
 {{- if and (hasKey .Values.mistralCommonParams "cleanup") (ne .Values.mistralCommonParams.cleanup "") }}
@@ -448,5 +459,44 @@ Protocol for DRD
   {{- "https://" -}}
 {{- else -}}
   {{- "http://" -}}
+{{- end -}}
+{{- end -}}
+
+
+{{/*
+Determining whether IDP JWK Secrets should be populated
+*/}}
+{{- define "idpSecrets.populate" -}}
+{{- $auth := toString (default false .Values.mistralCommonParams.auth.enable) | lower -}}
+{{- if (eq $auth "true") -}}
+{{- if and
+  (not (empty .Values.secrets.idpClientId))
+  (ne  (toString .Values.secrets.idpClientId) "null")
+-}}
+idp-client-id: {{ .Values.secrets.idpClientId | b64enc }}
+{{- end -}}
+{{- if and
+  (not (empty .Values.secrets.idpClientSecret))
+  (ne  (toString .Values.secrets.idpClientSecret) "null")
+-}}
+idp-client-secret: {{ .Values.secrets.idpClientSecret | b64enc }}
+{{- end -}}
+{{- if and
+  (not (empty .Values.secrets.idpJwkExp))
+  (ne  (toString .Values.secrets.idpJwkExp) "null")
+-}}
+idp-jwk-exp: {{ .Values.secrets.idpJwkExp | b64enc }}
+{{- end -}}
+{{- if and
+  (not (empty .Values.secrets.idpJwkMod))
+  (ne  (toString .Values.secrets.idpJwkMod) "null")
+-}}
+idp-jwk-mod: {{ .Values.secrets.idpJwkMod | b64enc }}
+{{- end -}}
+{{- else -}}
+idp-client-id: {{ .Values.secrets.idpClientId | b64enc }}
+idp-client-secret: {{ .Values.secrets.idpClientSecret | b64enc }}
+idp-jwk-exp: {{ .Values.secrets.idpJwkExp | b64enc }}
+idp-jwk-mod: {{ .Values.secrets.idpJwkMod | b64enc }}
 {{- end -}}
 {{- end -}}
