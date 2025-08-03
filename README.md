@@ -9,7 +9,7 @@ The repository stucture is described below.
 * `./bluegreen-agent` - bg agent from migrating workflows during bg deployment
 * `./build` - directory contains scripts for building docker image
 * `./delete-dvm-deploy-artifacts` - contains script for cleanup cleaning up Mistral's resources
-* `./deploy` - description
+* `./deploy` - directory with Kubernetes manifests for deploying the operator (CRDs, RBAC, operator deployment, example CR)
 * `./deployments` - directory with HELM charts for the Mistral
 * `./docs` - directory with actual documentation for the service.
 * `./src` - directory with operator source code, which is used for running the Mistral
@@ -45,3 +45,5 @@ Also, developer can take a look on [Troubleshooting guide](/docs/public/troubles
 * [Installation guide](/docs/public/installation.md)
 * [Troubleshooting guide](/docs/public/troubleshooting.md)
 * [Architecture Guide](/docs/public/architecture.md)
+* [Concepts and Deployment Process](/docs/public/concepts-and-deployment.md)
+* [Концепции и процесс развертывания (RU)](/docs/public/concepts-and-deployment-ru.md)
