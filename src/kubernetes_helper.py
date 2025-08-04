@@ -2377,7 +2377,7 @@ class KubernetesHelper:
         conditions = list(current.get("conditions") or [])
         cond = {
             "type": MC.Status.IN_PROGRESS,
-            "status": True,  # boolean per CRD
+            "status": True,
             "message": "Mistral operator started deploy process",
         }
         for c in conditions:
