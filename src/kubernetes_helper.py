@@ -2971,13 +2971,9 @@ class KubernetesHelper:
             if value is not None
         }
         cr = self.get_custom_resource()
-        status = cr.get('status')
-        if not status:
-            status = {'disasterRecoveryStatus': disaster_recovery_status}
-        else:
-            status['disasterRecoveryStatus'] = disaster_recovery_status
-        cr['status'] = status
-        self.update_custom_resource(cr)
+        current = cr.get("status") or {}
+        current["disasterRecoveryStatus"] = disaster_recovery_status
+        self.patch_custom_resource_status(current)
 
     def decode_secret(self, secret):
         return base64.b64decode(secret).decode("utf-8")
