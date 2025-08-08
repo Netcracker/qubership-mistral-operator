@@ -108,7 +108,11 @@ class KubernetesHelper:
 
     def get_job_logs(self, job_doc):
         job_logs = ""
-        pod_label_selector = "controller-uid=" + job_doc.spec.selector.match_labels["controller-uid"]
+        labels = getattr(job_doc.spec.selector, "match_labels", {}) or {}
+        ctrl_uid = labels.get("controller-uid")
+        if not ctrl_uid:
+            return "No controller-uid label on Job selector; cannot fetch pod logs."
+        pod_label_selector = "controller-uid=" + ctrl_uid
         pods_list = self._v1_apps_api.list_namespaced_pod(
             namespace=self._workspace, label_selector=pod_label_selector, timeout_seconds=10
         )
@@ -2369,29 +2373,53 @@ class KubernetesHelper:
     def initiate_status(self):
         cr = self.get_custom_resource()
         logger.info(cr)
-        conditions = []
-        in_progress = V1ComponentCondition(
-            type=MC.Status.IN_PROGRESS,
-            status=True,
-            message="Mistral operator started deploy process",
+        current = cr.get("status") or {}
+        conditions = list(current.get("conditions") or [])
+        cond = {
+            "type": MC.Status.IN_PROGRESS,
+            "status": True,
+            "message": "Mistral operator started deploy process",
+        }
+        for c in conditions:
+            if c.get("type") == MC.Status.IN_PROGRESS:
+                c.update(cond)
+                break
+        else:
+            conditions.append(cond)
+
+        current["conditions"] = conditions
+        self.patch_custom_resource_status(current)
+
+    def patch_custom_resource_status(self, status_body):
+        self._custom_objects_api.patch_namespaced_custom_object_status(
+            group=MC.CR_GROUP,
+            version=MC.CR_VERSION,
+            namespace=self._workspace,
+            plural=MC.CR_PLURAL,
+            name=MC.CR_NAME,
+            body={"status": status_body},
         )
-        conditions.append(in_progress)
-        status = V1ComponentStatus(conditions=conditions)
-        cr['status'] = status
-        self.update_custom_resource(cr)
 
     def update_status(self, status_type, error, message):
         cr = self.get_custom_resource()
-        conditions = cr['status']['conditions']
-        new_condition = V1ComponentCondition(
-            type=status_type,
-            status=True,
-            message=message,
-            error=error,
-        )
-        conditions.append(new_condition)
-        cr['status']['conditions'] = conditions
-        self.update_custom_resource(cr)
+        current = cr.get("status") or {}
+        conditions = list(current.get("conditions") or [])
+        new_cond = {
+            "type": status_type,
+            "status": True,
+            "reason": error,
+            "message": message,
+        }
+
+        for c in conditions:
+            if c.get("type") == status_type:
+                c.update(new_cond)
+                break
+        else:
+            conditions.append(new_cond)
+
+        current["conditions"] = conditions
+        self.patch_custom_resource_status(current)
 
     def check_mistral_service_ready(self, service):
         deployment = self._apps_api.read_namespaced_deployment(
@@ -2943,13 +2971,9 @@ class KubernetesHelper:
             if value is not None
         }
         cr = self.get_custom_resource()
-        status = cr.get('status')
-        if not status:
-            status = {'disasterRecoveryStatus': disaster_recovery_status}
-        else:
-            status['disasterRecoveryStatus'] = disaster_recovery_status
-        cr['status'] = status
-        self.update_custom_resource(cr)
+        current = cr.get("status") or {}
+        current["disasterRecoveryStatus"] = disaster_recovery_status
+        self.patch_custom_resource_status(current)
 
     def decode_secret(self, secret):
         return base64.b64decode(secret).decode("utf-8")
