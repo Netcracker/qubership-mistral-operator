@@ -481,6 +481,7 @@ The Mistral Operator parameters are as follows:
 |operator.resources.requests.memory|string|no|100Mi|This parameter specifies the requested memory for the operator.|
 |operator.resources.limits.cpu|string|no|100m|This parameter specifies the CPU limit for the operator.|
 |operator.resources.limits.memory|string|no|300Mi|This parameter specifies the memory limit for the operator.|
+|operator.affinity    |object|no|{}|This parameter specifies affinity rules for the operator.|
 |operator.priorityClassName|string|no|""|The priority class to be used to assign priority to Mistral Operator pod. Priority class should be created beforehand. For more information, refer to https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/.|
 |labels|yaml|no|''|This parameter specifies additional labels for all pods, including mistral operator.|
 
