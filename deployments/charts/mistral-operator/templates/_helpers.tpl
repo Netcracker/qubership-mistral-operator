@@ -502,18 +502,25 @@ idp-jwk-mod: {{ .Values.secrets.idpJwkMod | b64enc }}
 {{- end -}}
 
 {{/*
+Truncate string to less than 63 chars
+*/}}
+{{- define "truncateString" -}}
+{{- $str := . | toString  -}}
+{{- if gt (len $str) 63 -}}
+  {{- $version := regexReplaceAll "^[0-9]+\\.[0-9]+\\.[0-9]+-" $str ""  -}}
+  {{- regexReplaceAll "-([0-9]+)\\.0\\.0-" $version "$1-" | trunc 62 | trimSuffix "-" -}}
+{{- else -}}
+  {{- $str -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Helm version for helm chart
 */}}
 {{- define "mistralOperator.version" -}}
 {{- if .Values.kubernetesLabels.mistralOperator.version -}}
-  {{- $helmVersion := .Values.kubernetesLabels.mistralOperator.version -}}
-  {{- if gt (len $helmVersion) 63 -}}
-    {{- $version := regexReplaceAll "^[0-9]+\\.[0-9]+\\.[0-9]+-" $helmVersion ""  -}}
-    {{- regexReplaceAll "-([0-9]+)\\.0\\.0-" $version "$1-" | trunc 63 | trimSuffix "-" -}}
-  {{- else -}}
-    {{- $helmVersion -}}
-  {{- end -}}
+  {{- template "truncateString" .Values.kubernetesLabels.mistralOperator.version -}}
 {{- else -}}
-  {{- .Chart.Version -}}
+  {{- template "truncateString" .Chart.Version -}}
 {{- end -}}
 {{- end -}}
