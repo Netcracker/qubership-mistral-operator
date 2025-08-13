@@ -56,11 +56,7 @@ spec:
       {{ else }}
       instance: mistral-operator-{{ .Release.Namespace }}
       {{ end }}
-      {{ if .Values.kubernetesLabels.mistralOperator.version }}
-      version: {{ .Values.kubernetesLabels.mistralOperator.version }}
-      {{ else }}
-      version: {{ .Chart.Version }}
-      {{ end }}
+      version: {{ include "mistralOperator.version" . }}
       partOf: {{ default "mistral" .Values.kubernetesLabels.mistralOperator.partOf }}
       managedBy: {{ default "Helm" .Values.kubernetesLabels.mistralOperator.managedBy }}
     mistralApi:
