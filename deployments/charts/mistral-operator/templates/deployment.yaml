@@ -23,11 +23,7 @@ spec:
         {{ else }}
         app.kubernetes.io/instance: mistral-operator-{{ .Release.Namespace }}
         {{ end }}
-        {{ if .Values.kubernetesLabels.mistralOperator.version }}
-        app.kubernetes.io/version: {{ .Values.kubernetesLabels.mistralOperator.version }}
-        {{ else }}
-        app.kubernetes.io/version: {{ .Chart.Version }}
-        {{ end }}
+        app.kubernetes.io/version: {{ include "mistralOperator.version" . }}
         app.kubernetes.io/part-of: {{ default "mistral" .Values.kubernetesLabels.mistralOperator.partOf }}
         app.kubernetes.io/managed-by: {{ default "Helm" .Values.kubernetesLabels.mistralOperator.managedBy }}
 {{- with .Values.labels }}

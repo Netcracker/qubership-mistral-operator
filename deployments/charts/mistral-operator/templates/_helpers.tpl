@@ -500,3 +500,20 @@ idp-jwk-exp: {{ .Values.secrets.idpJwkExp | b64enc }}
 idp-jwk-mod: {{ .Values.secrets.idpJwkMod | b64enc }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Helm version for helm chart
+*/}}
+{{- define "mistralOperator.version" -}}
+{{- if .Values.kubernetesLabels.mistralOperator.version -}}
+  {{- $helmVersion := .Values.kubernetesLabels.mistralOperator.version -}}
+  {{- if gt (len $helmVersion) 63 -}}
+    {{- $version := regexReplaceAll "^[0-9]+\\.[0-9]+\\.[0-9]+-" $helmVersion ""  -}}
+    {{- regexReplaceAll "-([0-9]+)\\.0\\.0-" $version "$1-" | trunc 63 | trimSuffix "-" -}}
+  {{- else -}}
+    {{- $helmVersion -}}
+  {{- end -}}
+{{- else -}}
+  {{- .Chart.Version -}}
+{{- end -}}
+{{- end -}}
