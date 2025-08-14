@@ -52,6 +52,10 @@ spec:
           secret:
             secretName: {{ template "mistral.tlsSecretName" . }}
         {{- end }}
+      {{- if .Values.operator.affinity }}
+      affinity:
+        {{ .Values.operator.affinity | toJson }}
+      {{- end }}
       securityContext:
         {{- include "restricted.globalPodSecurityContext" . | nindent 8 }}
       {{- if .Values.operator.priorityClassName }}
