@@ -151,7 +151,11 @@ def on_update(body, meta, spec, status, old, new, diff, **kwargs):
     logger.info("changes: %s", str(diff))
     logger.info('Handling the diff')
     kub_helper = KubernetesHelper(spec)
-    kub_helper.initiate_status()
+    kub_helper.update_status(
+        MC.Status.IN_PROGRESS,
+        "",
+        f"Mistral operator started deploy process"
+    )
     if not kub_helper.is_secret_present(MC.MISTRAL_SECRET):
         kub_helper.update_status(
             MC.Status.FAILED,
