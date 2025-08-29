@@ -28,6 +28,7 @@ COPY src/handler.py ${WORKDIR}
 COPY src/mistral_constants.py ${WORKDIR}
 COPY src/kubernetes_helper.py ${WORKDIR}
 COPY src/rabbitmq_helper.py ${WORKDIR}
+COPY src/liveness_probe.sh ${WORKDIR}
 
 RUN chmod 777 /usr/local/bin/user_setup && \
 chmod 777 /usr/local/bin/entrypoint && \
