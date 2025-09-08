@@ -228,8 +228,8 @@ spec:
       idleTimeout: {{ (include "mistral.idleTimeout" .) }}
     queueNamePrefix: {{ .Values.mistralCommonParams.queueNamePrefix }}
     rabbit:
-      host: {{ .Values.mistralCommonParams.rabbit.host }}
-      port: {{ .Values.mistralCommonParams.rabbit.port }}
+      host: {{ (include "mistral.rabbitHost" .) }}
+      port: {{ (include "mistral.rabbitPort" .) }}
       vhost: {{ (include "mistral.rabbitmqVHost" .) }}
     kafkaNotifications:
       enabled: {{ .Values.mistralCommonParams.kafkaNotifications.enabled }}
