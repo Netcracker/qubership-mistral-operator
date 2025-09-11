@@ -4,6 +4,16 @@ metadata:
   name: mistral-operator
   labels:
     name: mistral-operator
+    app.kubernetes.io/name: {{ default "mistral-operator" .Values.kubernetesLabels.mistralOperator.name }}
+    app.kubernetes.io/component: {{ default "mistral-operator" .Values.kubernetesLabels.mistralOperator.component }}
+    {{ if .Values.kubernetesLabels.mistralOperator.instance }}
+    app.kubernetes.io/instance: {{ .Values.kubernetesLabels.mistralOperator.instance }}
+    {{ else }}
+    app.kubernetes.io/instance: mistral-operator-{{ .Release.Namespace }}
+    {{ end }}
+    app.kubernetes.io/version: {{ include "mistralOperator.version" . }}
+    app.kubernetes.io/part-of: {{ default "mistral" .Values.kubernetesLabels.mistralOperator.partOf }}
+    app.kubernetes.io/managed-by: {{ default "Helm" .Values.kubernetesLabels.mistralOperator.managedBy }}
 {{- with .Values.labels }}
 {{ toYaml . | indent 4 }}
 {{- end }}

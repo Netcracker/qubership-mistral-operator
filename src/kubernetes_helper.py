@@ -591,8 +591,9 @@ class KubernetesHelper:
         logger.debug("resources:" + str(mistral_resources))
         meta = V1ObjectMeta(labels=self.get_labels(
             {
-                'app': MC.MISTRAL_LABEL
-            }), name=name, namespace=self._workspace)
+                'app': MC.MISTRAL_LABEL,
+                'name': name
+            }, kubernetes_prefix=server), name=name, namespace=self._workspace)
         mistral_image = self._spec['mistral']['dockerImage']
         image_pull_policy = 'Always' if 'latest' in mistral_image.lower() \
             else 'IfNotPresent'
@@ -1969,8 +1970,10 @@ class KubernetesHelper:
             service_spec.selector = {'deploymentconfig': MC.MISTRAL_LABEL}
 
         service = V1Service(spec=service_spec,
-                            metadata=V1ObjectMeta(labels={'app': MC.MISTRAL_LABEL},
-                                                  name=MC.MISTRAL_SERVICE))
+                            metadata=V1ObjectMeta(
+                                labels={'app': MC.MISTRAL_LABEL,
+                                        'app.kubernetes.io/name': MC.MISTRAL_LABEL},
+                                name=MC.MISTRAL_SERVICE))
         kopf.adopt(service)
         self._v1_apps_api.create_namespaced_service(self._workspace, service)
 
@@ -1983,8 +1986,10 @@ class KubernetesHelper:
                               protocol='TCP',
                               target_port=9090)])
         service = V1Service(spec=service_spec,
-                            metadata=V1ObjectMeta(labels={'app': 'mistral-monitoring'},
-                                                  name='mistral-monitoring'))
+                            metadata=V1ObjectMeta(
+                                labels={'app': 'mistral-monitoring',
+                                        'app.kubernetes.io/name': 'mistral-monitoring'},
+                                name='mistral-monitoring'))
         kopf.adopt(service)
         self._v1_apps_api.create_namespaced_service(self._workspace, service)
 
