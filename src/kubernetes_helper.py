@@ -2336,9 +2336,16 @@ class KubernetesHelper:
         return len(exists) != 0
 
     def should_cleanup(self):
-        return self._spec.get('mistralCommonParams', {}).get('cleanup', False)
+        spec = self._spec or {}
+        cleanup_flag = bool((spec.get('mistralCommonParams') or {})
+                            .get('cleanup', False))
+        if not cleanup_flag:
+            return False
+        dr_mode = str(((spec.get('disasterRecovery') or {})
+                       .get('mode') or '')).strip().lower()
+        return dr_mode != 'standby'
 
-    def integration_tests_enabled(self):
+def integration_tests_enabled(self):
         enabled = self._spec['integrationTests']['enabled']
         if type(enabled) is bool:
             return enabled
@@ -2374,16 +2381,19 @@ class KubernetesHelper:
         cr = self.get_custom_resource()
         logger.info(cr)
         current = cr.get("status") or {}
-        conditions = []
-        now = datetime.now(timezone.utc).isoformat()
+        conditions = list(current.get("conditions") or [])
         cond = {
             "type": MC.Status.IN_PROGRESS,
             "status": True,
             "message": "Mistral operator started deploy process",
-            "changed": now
         }
+        for c in conditions:
+            if c.get("type") == MC.Status.IN_PROGRESS:
+                c.update(cond)
+                break
+        else:
+            conditions.append(cond)
 
-        conditions.append(cond)
         current["conditions"] = conditions
         self.patch_custom_resource_status(current)
 
@@ -2401,29 +2411,17 @@ class KubernetesHelper:
         cr = self.get_custom_resource()
         current = cr.get("status") or {}
         conditions = list(current.get("conditions") or [])
-        now = datetime.now(timezone.utc).isoformat()
-
         new_cond = {
             "type": status_type,
             "status": True,
             "reason": error,
             "message": message,
-            "changed": now
         }
 
-        if conditions:
-            old_cond_status = {
-                "status": False
-            }
-            found = False
-            for c in conditions:
-                if c.get("type") == status_type:
-                    c.update(new_cond)
-                    found = True
-                else:
-                    c.update(old_cond_status)
-            if not found:
-                conditions.append(new_cond)
+        for c in conditions:
+            if c.get("type") == status_type:
+                c.update(new_cond)
+                break
         else:
             conditions.append(new_cond)
 
