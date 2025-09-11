@@ -1814,7 +1814,7 @@ class KubernetesHelper:
             labels['app.kubernetes.io/version'] = self._spec['kubernetesLabels'][kubernetes_prefix]['version']
             labels['app.kubernetes.io/part-of'] = self._spec['kubernetesLabels'][kubernetes_prefix]['partOf']
             labels['app.kubernetes.io/managed-by'] = self._spec['kubernetesLabels'][kubernetes_prefix]['managedBy']
-
+            labels['app.kubernetes.io/technology'] = 'Python'
         if 'labels' in self._spec:
             labels.update(self._spec['labels'])
         return labels
@@ -1972,7 +1972,9 @@ class KubernetesHelper:
         service = V1Service(spec=service_spec,
                             metadata=V1ObjectMeta(
                                 labels={'app': MC.MISTRAL_LABEL,
-                                        'app.kubernetes.io/name': MC.MISTRAL_LABEL},
+                                        'name': MC.MISTRAL_LABEL,
+                                        'app.kubernetes.io/name': MC.MISTRAL_LABEL,
+                                        'app.kubernetes.io/managed-by': 'Helm'},
                                 name=MC.MISTRAL_SERVICE))
         kopf.adopt(service)
         self._v1_apps_api.create_namespaced_service(self._workspace, service)
@@ -1988,7 +1990,9 @@ class KubernetesHelper:
         service = V1Service(spec=service_spec,
                             metadata=V1ObjectMeta(
                                 labels={'app': 'mistral-monitoring',
-                                        'app.kubernetes.io/name': 'mistral-monitoring'},
+                                        'name': 'mistral-monitoring',
+                                        'app.kubernetes.io/name': 'mistral-monitoring',
+                                        'app.kubernetes.io/managed-by': 'Helm'},
                                 name='mistral-monitoring'))
         kopf.adopt(service)
         self._v1_apps_api.create_namespaced_service(self._workspace, service)
