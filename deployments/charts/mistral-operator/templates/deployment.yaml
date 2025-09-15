@@ -5,7 +5,7 @@ metadata:
   labels:
     name: mistral-operator
     app.kubernetes.io/name: {{ default "mistral-operator" .Values.kubernetesLabels.mistralOperator.name }}
-    app.kubernetes.io/component: {{ default "mistral-operator" .Values.kubernetesLabels.mistralOperator.component }}
+    app.kubernetes.io/component: {{ default "operator" .Values.kubernetesLabels.mistralOperator.component }}
     {{ if .Values.kubernetesLabels.mistralOperator.instance }}
     app.kubernetes.io/instance: {{ .Values.kubernetesLabels.mistralOperator.instance }}
     {{ else }}
@@ -29,7 +29,7 @@ spec:
       labels:
         name: mistral-operator
         app.kubernetes.io/name: {{ default "mistral-operator" .Values.kubernetesLabels.mistralOperator.name }}
-        app.kubernetes.io/component: {{ default "mistral-operator" .Values.kubernetesLabels.mistralOperator.component }}
+        app.kubernetes.io/component: {{ default "operator" .Values.kubernetesLabels.mistralOperator.component }}
         {{ if .Values.kubernetesLabels.mistralOperator.instance }}
         app.kubernetes.io/instance: {{ .Values.kubernetesLabels.mistralOperator.instance }}
         {{ else }}
