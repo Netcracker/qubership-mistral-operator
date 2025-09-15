@@ -58,6 +58,7 @@ mistral:
 
 CLOUD_CORE_INTEGRATION_ENABLED: False
 
+DEPLOYMENT_SESSION_ID: "default-session-id"
 kubernetesLabels:
   mistralOperator:
     name: ""

@@ -91,6 +91,8 @@ spec:
                                 enabled:
                                   type: boolean
                   type: object
+                deploymentSessionId:
+                  type: string
                 kubernetesLabels:
                   type: object
                   properties:

@@ -1814,9 +1814,13 @@ class KubernetesHelper:
             labels['app.kubernetes.io/version'] = self._spec['kubernetesLabels'][kubernetes_prefix]['version']
             labels['app.kubernetes.io/part-of'] = self._spec['kubernetesLabels'][kubernetes_prefix]['partOf']
             labels['app.kubernetes.io/managed-by'] = self._spec['kubernetesLabels'][kubernetes_prefix]['managedBy']
-            labels['app.kubernetes.io/technology'] = 'Python'
+            labels['app.kubernetes.io/technology'] = 'python'
         if 'labels' in self._spec:
             labels.update(self._spec['labels'])
+        session_id = self._spec.get('deploymentSessionId')
+        if session_id:
+            labels['deployment.netcracker.com/session-id'] = session_id
+
         return labels
 
     def is_secret_present(self, name):
@@ -1969,12 +1973,10 @@ class KubernetesHelper:
         if self.is_mistral_lite():
             service_spec.selector = {'deploymentconfig': MC.MISTRAL_LABEL}
 
+        labels = self.get_labels({}, kubernetes_prefix="api")
         service = V1Service(spec=service_spec,
                             metadata=V1ObjectMeta(
-                                labels={'app': MC.MISTRAL_LABEL,
-                                        'name': MC.MISTRAL_LABEL,
-                                        'app.kubernetes.io/name': MC.MISTRAL_LABEL,
-                                        'app.kubernetes.io/managed-by': 'Helm'},
+                                labels=labels,
                                 name=MC.MISTRAL_SERVICE))
         kopf.adopt(service)
         self._v1_apps_api.create_namespaced_service(self._workspace, service)
@@ -1987,12 +1989,11 @@ class KubernetesHelper:
                               port=9090,
                               protocol='TCP',
                               target_port=9090)])
+
+        labels = self.get_labels({}, kubernetes_prefix="monitoring")
         service = V1Service(spec=service_spec,
                             metadata=V1ObjectMeta(
-                                labels={'app': 'mistral-monitoring',
-                                        'name': 'mistral-monitoring',
-                                        'app.kubernetes.io/name': 'mistral-monitoring',
-                                        'app.kubernetes.io/managed-by': 'Helm'},
+                                labels=labels,
                                 name='mistral-monitoring'))
         kopf.adopt(service)
         self._v1_apps_api.create_namespaced_service(self._workspace, service)
