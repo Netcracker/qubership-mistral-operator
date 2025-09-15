@@ -14,7 +14,8 @@ metadata:
     app.kubernetes.io/version: {{ include "mistralOperator.version" . }}
     app.kubernetes.io/part-of: {{ default "mistral" .Values.kubernetesLabels.mistralOperator.partOf }}
     app.kubernetes.io/managed-by: {{ default "Helm" .Values.kubernetesLabels.mistralOperator.managedBy }}
-    app.kubernetes.io/technology: {{ default "Python" .Values.kubernetesLabels.mistralOperator.technology }}
+    app.kubernetes.io/technology: {{ default "python" .Values.kubernetesLabels.mistralOperator.technology }}
+    deployment.netcracker.com/session-id: "{{ .Values.DEPLOYMENT_SESSION_ID }}"
   {{- with .Values.labels }}
 {{ toYaml . | indent 4 }}
 {{- end }}
@@ -37,7 +38,8 @@ spec:
         app.kubernetes.io/version: {{ include "mistralOperator.version" . }}
         app.kubernetes.io/part-of: {{ default "mistral" .Values.kubernetesLabels.mistralOperator.partOf }}
         app.kubernetes.io/managed-by: {{ default "Helm" .Values.kubernetesLabels.mistralOperator.managedBy }}
-        app.kubernetes.io/technology: {{ default "Python" .Values.kubernetesLabels.mistralOperator.technology }}
+        app.kubernetes.io/technology: {{ default "python" .Values.kubernetesLabels.mistralOperator.technology }}
+        deployment.netcracker.com/session-id: "{{ .Values.DEPLOYMENT_SESSION_ID }}"
 {{- with .Values.labels }}
 {{ toYaml . | indent 8 }}
 {{- end }}
