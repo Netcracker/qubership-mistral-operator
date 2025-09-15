@@ -51,7 +51,7 @@ spec:
   kubernetesLabels:
     mistralOperator:
       name: {{ default "mistral-operator" .Values.kubernetesLabels.mistralOperator.name }}
-      component: {{ default "operator" .Values.kubernetesLabels.mistralOperator.component }}
+      component: {{ default "backend" .Values.kubernetesLabels.mistralOperator.component }}
       {{ if .Values.kubernetesLabels.mistralOperator.instance }}
       instance: {{ .Values.kubernetesLabels.mistralOperator.instance }}
       {{ else }}
@@ -62,7 +62,7 @@ spec:
       managedBy: {{ default "Helm" .Values.kubernetesLabels.mistralOperator.managedBy }}
     mistralApi:
       name: {{ default "mistral-api" .Values.kubernetesLabels.mistralApi.name }}
-      component: {{ default "api" .Values.kubernetesLabels.mistralApi.component }}
+      component: {{ default "backend" .Values.kubernetesLabels.mistralApi.component }}
       {{ if .Values.kubernetesLabels.mistralApi.instance }}
       instance: {{ .Values.kubernetesLabels.mistralApi.instance }}
       {{ else }}
@@ -77,7 +77,7 @@ spec:
       managedBy: {{ default "Helm" .Values.kubernetesLabels.mistralApi.managedBy }}
     mistralEngine:
       name: {{ default "mistral-engine" .Values.kubernetesLabels.mistralEngine.name }}
-      component: {{ default "engine" .Values.kubernetesLabels.mistralEngine.component }}
+      component: {{ default "backend" .Values.kubernetesLabels.mistralEngine.component }}
       {{ if .Values.kubernetesLabels.mistralEngine.instance }}
       instance: {{ .Values.kubernetesLabels.mistralEngine.instance }}
       {{ else }}
@@ -92,7 +92,7 @@ spec:
       managedBy: {{ default "Helm" .Values.kubernetesLabels.mistralEngine.managedBy }}
     mistralExecutor:
       name: {{ default "mistral-executor" .Values.kubernetesLabels.mistralExecutor.name }}
-      component: {{ default "executor" .Values.kubernetesLabels.mistralExecutor.component }}
+      component: {{ default "backend" .Values.kubernetesLabels.mistralExecutor.component }}
       {{ if .Values.kubernetesLabels.mistralExecutor.instance }}
       instance: {{ .Values.kubernetesLabels.mistralExecutor.instance }}
       {{ else }}
@@ -107,7 +107,7 @@ spec:
       managedBy: {{ default "Helm" .Values.kubernetesLabels.mistralExecutor.managedBy }}
     mistralNotifier:
       name: {{ default "mistral-notifier" .Values.kubernetesLabels.mistralNotifier.name }}
-      component: {{ default "notifier" .Values.kubernetesLabels.mistralNotifier.component }}
+      component: {{ default "backend" .Values.kubernetesLabels.mistralNotifier.component }}
       {{ if .Values.kubernetesLabels.mistralNotifier.instance }}
       instance: {{ .Values.kubernetesLabels.mistralNotifier.instance }}
       {{ else }}
@@ -122,7 +122,7 @@ spec:
       managedBy: {{ default "Helm" .Values.kubernetesLabels.mistralNotifier.managedBy }}
     mistralMonitoring:
       name: {{ default "mistral-monitoring" .Values.kubernetesLabels.mistralMonitoring.name }}
-      component: {{ default "monitoring" .Values.kubernetesLabels.mistralMonitoring.component }}
+      component: {{ default "backend" .Values.kubernetesLabels.mistralMonitoring.component }}
       {{ if .Values.kubernetesLabels.mistralMonitoring.instance }}
       instance: {{ .Values.kubernetesLabels.mistralMonitoring.instance }}
       {{ else }}
@@ -137,7 +137,7 @@ spec:
       managedBy: {{ default "Helm" .Values.kubernetesLabels.mistralMonitoring.managedBy }}
     mistralUpdateDbJob:
       name: {{ default "mistral-update-db-job" .Values.kubernetesLabels.mistralUpdateDbJob.name }}
-      component: {{ default "update-db-job" .Values.kubernetesLabels.mistralUpdateDbJob.component }}
+      component: {{ default "job" .Values.kubernetesLabels.mistralUpdateDbJob.component }}
       {{ if .Values.kubernetesLabels.mistralUpdateDbJob.instance }}
       instance: {{ .Values.kubernetesLabels.mistralUpdateDbJob.instance }}
       {{ else }}
@@ -152,7 +152,7 @@ spec:
       managedBy: {{ default "Helm" .Values.kubernetesLabels.mistralUpdateDbJob.managedBy }}
     mistralDrJob:
       name: {{ default "mistral-dr-job" .Values.kubernetesLabels.mistralDrJob.name }}
-      component: {{ default "dr-job" .Values.kubernetesLabels.mistralDrJob.component }}
+      component: {{ default "job" .Values.kubernetesLabels.mistralDrJob.component }}
       {{ if .Values.kubernetesLabels.mistralDrJob.instance }}
       instance: {{ .Values.kubernetesLabels.mistralDrJob.instance }}
       {{ else }}
@@ -167,7 +167,7 @@ spec:
       managedBy: {{ default "Helm" .Values.kubernetesLabels.mistralDrJob.managedBy }}
     mistralTests:
       name: {{ default "mistral-tests" .Values.kubernetesLabels.mistralTests.name }}
-      component: {{ default "tests" .Values.kubernetesLabels.mistralTests.component }}
+      component: {{ default "backend" .Values.kubernetesLabels.mistralTests.component }}
       {{ if .Values.kubernetesLabels.mistralTests.instance }}
       instance: {{ .Values.kubernetesLabels.mistralTests.instance }}
       {{ else }}

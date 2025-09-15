@@ -1972,11 +1972,15 @@ class KubernetesHelper:
 
         if self.is_mistral_lite():
             service_spec.selector = {'deploymentconfig': MC.MISTRAL_LABEL}
-
-        labels = self.get_labels({}, kubernetes_prefix="api")
+        session_id = self._spec.get('deploymentSessionId', 'default-session-id')
         service = V1Service(spec=service_spec,
                             metadata=V1ObjectMeta(
-                                labels=labels,
+                                labels={'app': MC.MISTRAL_LABEL,
+                                        'name': MC.MISTRAL_LABEL,
+                                        'app.kubernetes.io/name': MC.MISTRAL_LABEL,
+                                        'app.kubernetes.io/managed-by': 'Helm',
+                                        'app.kubernetes.io/part-of': 'mistral',
+                                        'deployment.netcracker.com/session-id': session_id},
                                 name=MC.MISTRAL_SERVICE))
         kopf.adopt(service)
         self._v1_apps_api.create_namespaced_service(self._workspace, service)
@@ -1990,10 +1994,15 @@ class KubernetesHelper:
                               protocol='TCP',
                               target_port=9090)])
 
-        labels = self.get_labels({}, kubernetes_prefix="monitoring")
+        session_id = self._spec.get('deploymentSessionId', 'default-session-id')
         service = V1Service(spec=service_spec,
                             metadata=V1ObjectMeta(
-                                labels=labels,
+                                labels={'app': 'mistral-monitoring',
+                                        'name': 'mistral-monitoring',
+                                        'app.kubernetes.io/name': 'mistral-monitoring',
+                                        'app.kubernetes.io/part-of': 'mistral',
+                                        'deployment.netcracker.com/session-id': session_id,
+                                        'app.kubernetes.io/managed-by': 'Helm'},
                                 name='mistral-monitoring'))
         kopf.adopt(service)
         self._v1_apps_api.create_namespaced_service(self._workspace, service)
