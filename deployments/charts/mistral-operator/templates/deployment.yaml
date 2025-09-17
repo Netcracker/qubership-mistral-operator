@@ -87,6 +87,29 @@ spec:
               cpu: {{ default "100m" .Values.operator.resources.requests.cpu }}
               memory: {{ default "100Mi" .Values.operator.resources.requests.memory }}
           {{ end }}
+          livenessProbe:
+            exec:
+              command: [
+                "/bin/sh",
+                "-c",
+                "/opt/operator/liveness_probe.sh"
+              ]
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 30
+            successThreshold: 1
+          readinessProbe:
+            exec:
+              command: [
+                "echo",
+                "ready"
+              ]
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 30
+            successThreshold: 1
           env:
             - name: OPERATOR_ID
               value: {{ template "mistral.operatorId" . }}

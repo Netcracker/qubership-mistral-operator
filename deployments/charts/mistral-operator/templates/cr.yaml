@@ -47,7 +47,7 @@ spec:
     priorityClassName: {{ .Values.disasterRecovery.priorityClassName }}
     {{- end }}
   {{- end }}
-  deploymentSessionId: "{{ .Values.DEPLOYMENT_SESSION_ID }}"
+  deploymentSessionId: {{ .Values.DEPLOYMENT_SESSION_ID }}
   kubernetesLabels:
     mistralOperator:
       name: {{ default "mistral-operator" .Values.kubernetesLabels.mistralOperator.name }}
