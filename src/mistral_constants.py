@@ -26,8 +26,8 @@ LIVENESS_PROBE_COMMAND_RMQ = [
 def get_liveness_probe_kafka():
     return V1Probe(
         failure_threshold=30,
-        initial_delay_seconds=60,
-        period_seconds=10,
+        initial_delay_seconds=0,
+        period_seconds=5,
         success_threshold=1,
         timeout_seconds=5,
         _exec=V1ExecAction(
@@ -71,47 +71,47 @@ READINESS_PROBE_API = V1Probe(failure_threshold=24,
 
 def get_readiness_probe_api(scheme):
     return V1Probe(failure_threshold=24,
-                   initial_delay_seconds=10,
+                   initial_delay_seconds=0,
                    period_seconds=5, success_threshold=1,
-                   timeout_seconds=10,
+                   timeout_seconds=2,
                    http_get=V1HTTPGetAction(path='/v2',
                                             port=8989,
                                             scheme=scheme))
 
 LIVENESS_PROBE_API = V1Probe(failure_threshold=12,
-                             initial_delay_seconds=60,
+                             initial_delay_seconds=0,
                              period_seconds=5, success_threshold=1,
-                             timeout_seconds=10,
+                             timeout_seconds=5,
                              tcp_socket=V1TCPSocketAction(port=8989))
 
 READINESS_PROBE_MONITORING = V1Probe(failure_threshold=24,
-                              initial_delay_seconds=10,
-                              period_seconds=120, success_threshold=1,
-                              timeout_seconds=10,
+                              initial_delay_seconds=0,
+                              period_seconds=5, success_threshold=1,
+                              timeout_seconds=5,
                               http_get=V1HTTPGetAction(path='/health',
                                                        port=9090,
                                                        scheme='HTTP'))
 
 def get_readiness_probe_monitoring(scheme):
     return V1Probe(failure_threshold=24,
-                   initial_delay_seconds=10,
-                   period_seconds=120, success_threshold=1,
-                   timeout_seconds=10,
+                   initial_delay_seconds=0,
+                   period_seconds=5, success_threshold=1,
+                   timeout_seconds=5,
                    http_get=V1HTTPGetAction(path='/health',
                                             port=9090,
                                             scheme=scheme))
 
 LIVENESS_PROBE_RMQ = V1Probe(failure_threshold=45,
-                             initial_delay_seconds=60,
-                             period_seconds=20, success_threshold=1,
-                             timeout_seconds=15,
+                             initial_delay_seconds=0,
+                             period_seconds=2, success_threshold=1,
+                             timeout_seconds=5,
                              _exec=V1ExecAction(
                                  command=LIVENESS_PROBE_COMMAND_RMQ))
 
 READINESS_PROBE_RMQ = V1Probe(failure_threshold=90,
-                              initial_delay_seconds=60,
-                              period_seconds=10, success_threshold=1,
-                              timeout_seconds=15,
+                              initial_delay_seconds=0,
+                              period_seconds=2, success_threshold=1,
+                              timeout_seconds=5,
                               _exec=V1ExecAction(
                                   command=READINESS_PROBE_COMMAND_RMQ))
 
