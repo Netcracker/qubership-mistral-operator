@@ -94,9 +94,9 @@ spec:
                 "-c",
                 "/opt/operator/liveness_probe.sh"
               ]
-            initialDelaySeconds: 60
+            initialDelaySeconds: 0
             periodSeconds: 5
-            timeoutSeconds: 20
+            timeoutSeconds: 2
             failureThreshold: 30
             successThreshold: 1
           readinessProbe:
@@ -105,9 +105,9 @@ spec:
                 "echo",
                 "ready"
               ]
-            initialDelaySeconds: 60
+            initialDelaySeconds: 0
             periodSeconds: 5
-            timeoutSeconds: 20
+            timeoutSeconds: 2
             failureThreshold: 30
             successThreshold: 1
           env:

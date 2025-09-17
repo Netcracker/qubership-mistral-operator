@@ -48,23 +48,23 @@ READINESS_PROBE_COMMAND_RMQ = [
 ]
 
 READINESS_PROBE = V1Probe(failure_threshold=30,
-                          initial_delay_seconds=60,
+                          initial_delay_seconds=0,
                           period_seconds=5, success_threshold=1,
-                          timeout_seconds=20,
+                          timeout_seconds=2,
                           _exec=V1ExecAction(
                               command=READINESS_PROBE_COMMAND))
 
 LIVENESS_PROBE = V1Probe(failure_threshold=30,
-                         initial_delay_seconds=60,
+                         initial_delay_seconds=0,
                          period_seconds=5, success_threshold=1,
-                         timeout_seconds=20,
+                         timeout_seconds=2,
                          _exec=V1ExecAction(
                              command=LIVENESS_PROBE_COMMAND))
 
 READINESS_PROBE_API = V1Probe(failure_threshold=24,
-                              initial_delay_seconds=10,
+                              initial_delay_seconds=0,
                               period_seconds=5, success_threshold=1,
-                              timeout_seconds=10,
+                              timeout_seconds=2,
                               http_get=V1HTTPGetAction(path='/v2',
                                                        port=8989,
                                                        scheme='HTTP'))
