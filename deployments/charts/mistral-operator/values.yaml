@@ -54,7 +54,11 @@ mistral:
     subjectAlternativeName:
       additionalDnsNames: []
       additionalIpAddresses: []
-
+  disruptionBudget:
+    enabled: false
+    maxUnavailable: 0
+#    or
+#    minAvailable: 2
 
 CLOUD_CORE_INTEGRATION_ENABLED: False
 
