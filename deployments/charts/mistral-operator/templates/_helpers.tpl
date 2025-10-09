@@ -197,6 +197,28 @@ RabbitMQ VHost name for Mistral
 {{- end -}}
 
 {{/*
+RabbitMQ host for Mistral.
+*/}}
+{{- define "mistral.rabbitHost" -}}
+  {{- if and (ne (.Values.INFRA_RABBITMQ_HOST | toString) "<nil>") .Values.mistral.cloudIntegrationEnabled -}}
+    {{- .Values.INFRA_RABBITMQ_HOST }}
+  {{- else -}}
+    {{- .Values.mistralCommonParams.rabbit.host -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*
+RabbitMQ port for Mistral.
+*/}}
+{{- define "mistral.rabbitPort" -}}
+  {{- if and (ne (.Values.INFRA_RABBITMQ_PORT | toString) "<nil>") .Values.mistral.cloudIntegrationEnabled -}}
+    {{- .Values.INFRA_RABBITMQ_PORT }}
+  {{- else -}}
+    {{- .Values.mistralCommonParams.rabbit.port -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*
 RabbitMQ admin username for Mistral.
 */}}
 {{- define "mistral.rabbitAdminUser" -}}

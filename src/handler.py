@@ -8,6 +8,7 @@ import logging
 import os
 
 from kubernetes import config as k8s_config
+from kubernetes.client.exceptions import ApiException
 
 import mistral_constants as MC
 from kubernetes_helper import KubernetesHelper
@@ -45,10 +46,16 @@ except k8s_config.ConfigException:
 if FORCED_UPGRADE:
     import datetime
     kube_helper = KubernetesHelper(None)
-    cr = kube_helper.get_custom_resource()
-    if cr:
-        cr["spec"]['mistral']['lastUpdate'] = datetime.datetime.now()
-        kube_helper.update_custom_resource(cr)
+    for i in range(5):
+        try:
+            cr = kube_helper.get_custom_resource()
+            if cr:
+                cr["spec"]['mistral']['lastUpdate'] = datetime.datetime.now()
+                kube_helper.update_custom_resource(cr)
+            break
+        except ApiException as e:
+            logger.error(f'Error while fetching CR {e}')
+        sleep(10)
 
 
 @kopf.on.startup()
