@@ -38,6 +38,8 @@ spec:
                 operatorId:
                   type: string
                 labels:
+                  additionalProperties:
+                    type: string
                   type: object
                 mistral:
                   properties:
