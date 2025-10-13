@@ -58,6 +58,7 @@ mistral:
 
 CLOUD_CORE_INTEGRATION_ENABLED: False
 
+DEPLOYMENT_SESSION_ID: "default-session-id"
 kubernetesLabels:
   mistralOperator:
     name: ""
@@ -66,6 +67,7 @@ kubernetesLabels:
     version: ""
     managedBy: ""
     partOf: ""
+    technology: ""
   mistralApi:
     name: ""
     component: ""
@@ -73,6 +75,7 @@ kubernetesLabels:
     version: ""
     managedBy: ""
     partOf: ""
+    technology: ""
   mistralEngine:
     name: ""
     component: ""
@@ -80,6 +83,7 @@ kubernetesLabels:
     version: ""
     managedBy: ""
     partOf: ""
+    technology: ""
   mistralExecutor:
     name: ""
     component: ""
@@ -87,6 +91,7 @@ kubernetesLabels:
     version: ""
     managedBy: ""
     partOf: ""
+    technology: ""
   mistralNotifier:
     name: ""
     component: ""
@@ -94,6 +99,7 @@ kubernetesLabels:
     version: ""
     managedBy: ""
     partOf: ""
+    technology: ""
   mistralMonitoring:
     name: ""
     component: ""
@@ -101,6 +107,7 @@ kubernetesLabels:
     version: ""
     managedBy: ""
     partOf: ""
+    technology: ""
   mistralUpdateDbJob:
     name: ""
     component: ""
@@ -108,6 +115,7 @@ kubernetesLabels:
     version: ""
     managedBy: ""
     partOf: ""
+    technology: ""
   mistralDrJob:
     name: ""
     component: ""
@@ -115,6 +123,7 @@ kubernetesLabels:
     version: ""
     managedBy: ""
     partOf: ""
+    technology: ""
   mistralTests:
     name: ""
     component: ""
@@ -122,6 +131,7 @@ kubernetesLabels:
     version: ""
     managedBy: ""
     partOf: ""
+    technology: ""
 
 disasterRecovery:
   image: ghcr.io/netcracker/disaster-recovery-daemon:main

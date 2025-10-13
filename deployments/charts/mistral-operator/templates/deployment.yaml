@@ -4,7 +4,19 @@ metadata:
   name: mistral-operator
   labels:
     name: mistral-operator
-{{- with .Values.labels }}
+    app.kubernetes.io/name: {{ default "mistral-operator" .Values.kubernetesLabels.mistralOperator.name }}
+    app.kubernetes.io/component: {{ default "operator" .Values.kubernetesLabels.mistralOperator.component }}
+    {{ if .Values.kubernetesLabels.mistralOperator.instance }}
+    app.kubernetes.io/instance: {{ .Values.kubernetesLabels.mistralOperator.instance }}
+    {{ else }}
+    app.kubernetes.io/instance: mistral-operator-{{ .Release.Namespace }}
+    {{ end }}
+    app.kubernetes.io/version: {{ include "mistralOperator.version" . }}
+    app.kubernetes.io/part-of: {{ default "mistral" .Values.kubernetesLabels.mistralOperator.partOf }}
+    app.kubernetes.io/managed-by: {{ default "Helm" .Values.kubernetesLabels.mistralOperator.managedBy }}
+    app.kubernetes.io/technology: {{ default "python" .Values.kubernetesLabels.mistralOperator.technology }}
+    deployment.netcracker.com/session-id: "{{ .Values.DEPLOYMENT_SESSION_ID }}"
+  {{- with .Values.labels }}
 {{ toYaml . | indent 4 }}
 {{- end }}
 spec:
@@ -17,7 +29,7 @@ spec:
       labels:
         name: mistral-operator
         app.kubernetes.io/name: {{ default "mistral-operator" .Values.kubernetesLabels.mistralOperator.name }}
-        app.kubernetes.io/component: {{ default "mistral-operator" .Values.kubernetesLabels.mistralOperator.component }}
+        app.kubernetes.io/component: {{ default "operator" .Values.kubernetesLabels.mistralOperator.component }}
         {{ if .Values.kubernetesLabels.mistralOperator.instance }}
         app.kubernetes.io/instance: {{ .Values.kubernetesLabels.mistralOperator.instance }}
         {{ else }}
@@ -30,6 +42,8 @@ spec:
         {{ end }}
         app.kubernetes.io/part-of: {{ default "mistral" .Values.kubernetesLabels.mistralOperator.partOf }}
         app.kubernetes.io/managed-by: {{ default "Helm" .Values.kubernetesLabels.mistralOperator.managedBy }}
+        app.kubernetes.io/technology: {{ default "python" .Values.kubernetesLabels.mistralOperator.technology }}
+        deployment.netcracker.com/session-id: "{{ .Values.DEPLOYMENT_SESSION_ID }}"
 {{- with .Values.labels }}
 {{ toYaml . | indent 8 }}
 {{- end }}
@@ -73,6 +87,29 @@ spec:
               cpu: {{ default "100m" .Values.operator.resources.requests.cpu }}
               memory: {{ default "100Mi" .Values.operator.resources.requests.memory }}
           {{ end }}
+          livenessProbe:
+            exec:
+              command: [
+                "/bin/sh",
+                "-c",
+                "/opt/operator/liveness_probe.sh"
+              ]
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 30
+            successThreshold: 1
+          readinessProbe:
+            exec:
+              command: [
+                "echo",
+                "ready"
+              ]
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 30
+            successThreshold: 1
           env:
             - name: OPERATOR_ID
               value: {{ template "mistral.operatorId" . }}

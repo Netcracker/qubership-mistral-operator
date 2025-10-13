@@ -587,8 +587,9 @@ class KubernetesHelper:
         logger.debug("resources:" + str(mistral_resources))
         meta = V1ObjectMeta(labels=self.get_labels(
             {
-                'app': MC.MISTRAL_LABEL
-            }), name=name, namespace=self._workspace)
+                'app': MC.MISTRAL_LABEL,
+                'name': name
+            }, kubernetes_prefix=server), name=name, namespace=self._workspace)
         mistral_image = self._spec['mistral']['dockerImage']
         image_pull_policy = 'Always' if 'latest' in mistral_image.lower() \
             else 'IfNotPresent'
@@ -1795,9 +1796,13 @@ class KubernetesHelper:
             labels['app.kubernetes.io/version'] = self._spec['kubernetesLabels'][kubernetes_prefix]['version']
             labels['app.kubernetes.io/part-of'] = self._spec['kubernetesLabels'][kubernetes_prefix]['partOf']
             labels['app.kubernetes.io/managed-by'] = self._spec['kubernetesLabels'][kubernetes_prefix]['managedBy']
-
+            labels['app.kubernetes.io/technology'] = 'python'
         if 'labels' in self._spec:
             labels.update(self._spec['labels'])
+        session_id = self._spec.get('deploymentSessionId')
+        if session_id:
+            labels['deployment.netcracker.com/session-id'] = session_id
+
         return labels
 
     def is_secret_present(self, name):
@@ -1949,10 +1954,16 @@ class KubernetesHelper:
 
         if self.is_mistral_lite():
             service_spec.selector = {'deploymentconfig': MC.MISTRAL_LABEL}
-
+        session_id = self._spec.get('deploymentSessionId', 'default-session-id')
         service = V1Service(spec=service_spec,
-                            metadata=V1ObjectMeta(labels={'app': MC.MISTRAL_LABEL},
-                                                  name=MC.MISTRAL_SERVICE))
+                            metadata=V1ObjectMeta(
+                                labels={'app': MC.MISTRAL_LABEL,
+                                        'name': MC.MISTRAL_LABEL,
+                                        'app.kubernetes.io/name': MC.MISTRAL_LABEL,
+                                        'app.kubernetes.io/managed-by': 'Helm',
+                                        'app.kubernetes.io/part-of': 'mistral',
+                                        'deployment.netcracker.com/session-id': session_id},
+                                name=MC.MISTRAL_SERVICE))
         kopf.adopt(service)
         self._v1_apps_api.create_namespaced_service(self._workspace, service)
 
@@ -1964,9 +1975,17 @@ class KubernetesHelper:
                               port=9090,
                               protocol='TCP',
                               target_port=9090)])
+
+        session_id = self._spec.get('deploymentSessionId', 'default-session-id')
         service = V1Service(spec=service_spec,
-                            metadata=V1ObjectMeta(labels={'app': 'mistral-monitoring'},
-                                                  name='mistral-monitoring'))
+                            metadata=V1ObjectMeta(
+                                labels={'app': 'mistral-monitoring',
+                                        'name': 'mistral-monitoring',
+                                        'app.kubernetes.io/name': 'mistral-monitoring',
+                                        'app.kubernetes.io/part-of': 'mistral',
+                                        'deployment.netcracker.com/session-id': session_id,
+                                        'app.kubernetes.io/managed-by': 'Helm'},
+                                name='mistral-monitoring'))
         kopf.adopt(service)
         self._v1_apps_api.create_namespaced_service(self._workspace, service)
 
