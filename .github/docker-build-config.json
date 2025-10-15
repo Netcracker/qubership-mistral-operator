@@ -1,21 +1,20 @@
 {
-  "components": [
-    {
-      "name": "qubership-mistral-operator",
-      "file": "Dockerfile",
-      "context": "."
-    },
-
-    {
-      "name": "qubership-mistral-operator-transfer",
-      "file": "docker-transfer/Dockerfile",
-      "context": "."
-    },
-    {
-      "name": "qubership-mistral-operator-bluegreen-agent",
-      "file": "bluegreen-agent/Dockerfile",
-      "context": "bluegreen-agent"
-    }
-  ],
-  "platforms": "linux/amd64,linux/arm64"
+    "components": [
+        {
+            "name": "qubership-zookeeper-integration-tests",
+            "file": "integration-tests/docker/Dockerfile",
+            "context": "integration-tests"
+        },
+        {
+            "name": "qubership-zookeeper-operator",
+            "file": "Dockerfile",
+            "context": "."
+        },
+        {
+            "name": "qubership-zookeeper-transfer",
+            "file": "docker-transfer/Dockerfile",
+            "context": "."
+        }
+    ],
+    "platforms": "linux/amd64,linux/arm64"
 }

@@ -1,13 +1,12 @@
 ---
 
 charts:
-  - name: qubership-mistral-operator
-    chart_file: deployments/charts/mistral-operator/Chart.yaml
-    values_file: deployments/charts/mistral-operator/values.yaml
+  - name: qubership-zookeeper
+    chart_file: charts/helm/zookeeper-service/Chart.yaml
+    values_file: charts/helm/zookeeper-service/values.yaml
     image:
-      - ghcr.io/netcracker/qubership-mistral-operator:${release}
-      - ghcr.io/netcracker/qubership-mistral-operator-bluegreen-agent:${release}
-      - ghcr.io/netcracker/qubership-mistral-operator-transfer:${release}
-      - ghcr.io/netcracker/qubership-mistral:${release}
-      - ghcr.io/netcracker/qubership-mistral-tests:${release}
-      - ghcr.io/netcracker/qubership-disaster-recovery-daemon:v0.4.5
+      - ghcr.io/netcracker/qubership-zookeeper-operator:${release}
+      - ghcr.io/netcracker/qubership-docker-zookeeper:${release}-${ZOO_VERSION}
+      - ghcr.io/netcracker/qubership-zookeeper-monitoring:${release}
+      - ghcr.io/netcracker/qubership-zookeeper-backup-daemon:${release}
+      - ghcr.io/netcracker/qubership-zookeeper-integration-tests:${release}
