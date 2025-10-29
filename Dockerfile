@@ -1,4 +1,4 @@
-FROM python:3.10.17-alpine3.22
+FROM python:3.10.19-alpine3.22
 
 ENV WORKDIR=/opt/operator/ \
     USER_UID=1001 \
@@ -20,7 +20,7 @@ COPY build/requirements.txt requirements.txt
 COPY build/user_setup /usr/local/bin
 COPY build/entrypoint /usr/local/bin
 
-RUN pip install --upgrade pip==23.3 && pip install -r requirements.txt
+RUN pip install --upgrade pip==25.2 && pip install -r requirements.txt
 
 # RUN pip install --upgrade pip==23.3 "setuptools==70.0.0"
 
