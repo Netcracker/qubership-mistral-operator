@@ -1,3 +1,12 @@
+FROM python:3.10.19-alpine3.22 AS wheelhouse
+
+RUN python --version && pip --version
+
+WORKDIR /wheels
+COPY build/requirements.txt requirements.txt
+RUN pip install --no-cache-dir --upgrade pip==23.3 wheel && \
+    pip wheel --no-cache-dir -r requirements.txt    -w /wheels
+
 FROM python:3.10.19-alpine3.22
 
 ENV WORKDIR=/opt/operator/ \
@@ -20,7 +29,9 @@ COPY build/requirements.txt requirements.txt
 COPY build/user_setup /usr/local/bin
 COPY build/entrypoint /usr/local/bin
 
-RUN pip install --upgrade pip==25.2 && pip install -r requirements.txt
+COPY --from=wheelhouse /wheels /wheels
+RUN pip install --no-cache-dir --upgrade pip==25.2 wheel && \
+    pip install --no-cache-dir --no-index --find-links=/wheels -r requirements.txt
 
 # RUN pip install --upgrade pip==23.3 "setuptools==70.0.0"
 
