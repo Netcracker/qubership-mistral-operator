@@ -171,40 +171,42 @@ def on_update(body, meta, spec, status, old, new, diff, **kwargs):
         )
         sleep(5)
         raise kopf.PermanentError("please create Mistral secret.")
-    if kub_helper.integration_tests_enabled() and kub_helper.run_tests_only():
-        kub_helper.set_deploy_status_and_run_tests()
-        return
-    idp_updated = kub_helper.generate_idp_params()
-    if kub_helper.is_deployment_present(MC.MISTRAL_TESTS):
-        kub_helper.delete_deployment(MC.MISTRAL_TESTS, True)
-        sleep(5)
-    kub_helper.update_mistral_common_configmap()
-    if kub_helper.is_mistral_lite():
-        kub_helper.update_lite_deployment(MC.MISTRAL_LITE_DEPLOYMENT)
-    else:
-        kub_helper.create_rabbit_credentials()
-        if not kub_helper.check_if_rmq_exchange_durable() or idp_updated or \
-               check_if_mistral_scale_down_needed(kub_helper, diff):
-            kub_helper.scale_down_mistral_deployments()
-            kub_helper.delete_existing_queues()
-        kub_helper.update_db_job()
-        for service in MC.MISTRAL_SERVICES:
-            if kub_helper.is_deployment_present(service):
-                kub_helper.update_deployment(
-                    service,
-                    MC.SERVICES_NAME_TO_SERVER[service]
-                )
-            else:
-                kub_helper.apply_deployment_config(
-                    service,
-                    MC.SERVICES_NAME_TO_SERVER[service]
-                )
+    mode = spec.get('disasterRecovery').get('mode', None)
+    if mode != 'standby' and mode != 'disable':
+        if kub_helper.integration_tests_enabled() and kub_helper.run_tests_only():
+            kub_helper.set_deploy_status_and_run_tests()
+            return
+        idp_updated = kub_helper.generate_idp_params()
+        if kub_helper.is_deployment_present(MC.MISTRAL_TESTS):
+            kub_helper.delete_deployment(MC.MISTRAL_TESTS, True)
+            sleep(5)
+        kub_helper.update_mistral_common_configmap()
+        if kub_helper.is_mistral_lite():
+            kub_helper.update_lite_deployment(MC.MISTRAL_LITE_DEPLOYMENT)
+        else:
+            kub_helper.create_rabbit_credentials()
+            if not kub_helper.check_if_rmq_exchange_durable() or idp_updated or \
+                check_if_mistral_scale_down_needed(kub_helper, diff):
+                kub_helper.scale_down_mistral_deployments()
+                kub_helper.delete_existing_queues()
+            kub_helper.update_db_job()
+            for service in MC.MISTRAL_SERVICES:
+                if kub_helper.is_deployment_present(service):
+                    kub_helper.update_deployment(
+                        service,
+                        MC.SERVICES_NAME_TO_SERVER[service]
+                    )
+                else:
+                    kub_helper.apply_deployment_config(
+                        service,
+                        MC.SERVICES_NAME_TO_SERVER[service]
+                    )
 
-    if not kub_helper.is_service_present(MC.MONITORING_SERVICE):
-        kub_helper.create_mistral_monitoring_service()
-    if not kub_helper.is_service_present(MC.MISTRAL_SERVICE):
-        kub_helper.create_mistral_service()
-    kub_helper.set_deploy_status_and_run_tests()
+        if not kub_helper.is_service_present(MC.MONITORING_SERVICE):
+            kub_helper.create_mistral_monitoring_service()
+        if not kub_helper.is_service_present(MC.MISTRAL_SERVICE):
+            kub_helper.create_mistral_service()
+        kub_helper.set_deploy_status_and_run_tests()
 
 
 @kopf.on.delete(MC.CR_GROUP, MC.CR_VERSION, MC.CR_PLURAL, optional=OPTIONAL_DELETE)
