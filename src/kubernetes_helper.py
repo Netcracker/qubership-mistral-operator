@@ -609,6 +609,7 @@ class KubernetesHelper:
                 requests={'cpu': mistral_resources['requests']['cpu'],
                           'memory': mistral_resources['requests']['memory']})
 
+
         container_envs = [
             V1EnvVar(
                 name='QUEUE_NAME_PREFIX',
