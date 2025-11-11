@@ -158,6 +158,16 @@ def on_update(body, meta, spec, status, old, new, diff, **kwargs):
     logger.info("changes: %s", str(diff))
     logger.info('Handling the diff')
     kub_helper = KubernetesHelper(spec)
+    
+    mode = spec.get('disasterRecovery').get('mode', None)
+    if mode == 'standby' or mode == 'disable':
+        kub_helper.update_status(
+            MC.Status.SUSPENDED,
+            "",
+            f"Mistral operator skipped deploy process"
+        )
+        return
+    
     kub_helper.update_status(
         MC.Status.IN_PROGRESS,
         "",
@@ -251,6 +261,11 @@ def set_disaster_recovery_state(spec, status, namespace, diff, **kwargs):
                     f" current status mode is: {status_mode}")
         if mode == 'standby' or mode == 'disable':
             kub_helper.scale_down_mistral_deployments()
+            kub_helper.update_status(
+                MC.Status.SUSPENDED,
+                "",
+                f"Mistral operator skipped deploy process"
+            )
 
         if mode == 'active':
             if status_mode is not None:
