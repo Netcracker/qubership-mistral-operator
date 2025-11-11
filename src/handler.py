@@ -154,6 +154,15 @@ def on_update(body, meta, spec, status, old, new, diff, **kwargs):
                     " readiness is established.")
         sleep(90)
         return
+    
+    mode = spec.get('disasterRecovery').get('mode', None)
+    if mode == 'standby' or mode == 'disable':
+        kub_helper.update_status(
+            MC.Status.SUSPENDED,
+            f"DR mode is: {mode}",
+            f"Mistral operator skipped reconcile process"
+        )
+        return
 
     logger.info("changes: %s", str(diff))
     logger.info('Handling the diff')
@@ -184,7 +193,7 @@ def on_update(body, meta, spec, status, old, new, diff, **kwargs):
     else:
         kub_helper.create_rabbit_credentials()
         if not kub_helper.check_if_rmq_exchange_durable() or idp_updated or \
-               check_if_mistral_scale_down_needed(kub_helper, diff):
+            check_if_mistral_scale_down_needed(kub_helper, diff):
             kub_helper.scale_down_mistral_deployments()
             kub_helper.delete_existing_queues()
         kub_helper.update_db_job()
@@ -251,6 +260,11 @@ def set_disaster_recovery_state(spec, status, namespace, diff, **kwargs):
                     f" current status mode is: {status_mode}")
         if mode == 'standby' or mode == 'disable':
             kub_helper.scale_down_mistral_deployments()
+            kub_helper.update_status(
+                MC.Status.SUSPENDED,
+                f"DR mode is: {mode}",
+                f"Mistral operator skipped reconcile process"
+            )
 
         if mode == 'active':
             if status_mode is not None:
