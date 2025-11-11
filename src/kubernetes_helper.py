@@ -596,7 +596,7 @@ class KubernetesHelper:
             }, kubernetes_prefix=server), name=name, namespace=self._workspace)
         mistral_image = self._spec['mistral']['dockerImage']
         image_pull_policy = 'Always' if 'latest' in mistral_image.lower() \
-            else 'IfNotPresent'
+            else 'Always'
 
         container_resources = \
             V1ResourceRequirements(
@@ -2364,7 +2364,7 @@ class KubernetesHelper:
                        .get('mode') or '')).strip().lower()
         return dr_mode != 'standby'
 
-def integration_tests_enabled(self):
+    def integration_tests_enabled(self):
         enabled = self._spec['integrationTests']['enabled']
         if type(enabled) is bool:
             return enabled
