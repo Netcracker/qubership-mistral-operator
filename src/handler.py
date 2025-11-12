@@ -154,7 +154,8 @@ def on_update(body, meta, spec, status, old, new, diff, **kwargs):
                     " readiness is established.")
         sleep(90)
         return
-    
+    kub_helper = KubernetesHelper(spec)
+
     mode = spec.get('disasterRecovery').get('mode', None)
     if mode == 'standby' or mode == 'disable':
         kub_helper.update_status(
@@ -166,7 +167,6 @@ def on_update(body, meta, spec, status, old, new, diff, **kwargs):
 
     logger.info("changes: %s", str(diff))
     logger.info('Handling the diff')
-    kub_helper = KubernetesHelper(spec)
     kub_helper.update_status(
         MC.Status.IN_PROGRESS,
         "",
