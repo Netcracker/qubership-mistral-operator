@@ -147,7 +147,6 @@ class Status:
     IN_PROGRESS = "In Progress"
     SUCCESSFUL = "Successful"
     FAILED = "Failed"
-    SUSPENDED = "Suspended"
 
 
 LOGLEVEL = os.environ.get('LOGLEVEL', 'INFO').upper()
