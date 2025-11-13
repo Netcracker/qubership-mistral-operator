@@ -159,7 +159,7 @@ def on_update(body, meta, spec, status, old, new, diff, **kwargs):
     mode = spec.get('disasterRecovery').get('mode', None)
     if mode == 'standby' or mode == 'disable':
         kub_helper.update_status(
-            MC.Status.SUSPENDED,
+            MC.Status.SUCCESSFUL,
             f"DR mode is: {mode}",
             f"Mistral operator skipped reconcile process"
         )
@@ -261,7 +261,7 @@ def set_disaster_recovery_state(spec, status, namespace, diff, **kwargs):
         if mode == 'standby' or mode == 'disable':
             kub_helper.scale_down_mistral_deployments()
             kub_helper.update_status(
-                MC.Status.SUSPENDED,
+                MC.Status.SUCCESSFUL,
                 f"DR mode is: {mode}",
                 f"Mistral operator skipped reconcile process"
             )

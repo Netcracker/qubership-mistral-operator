@@ -5,7 +5,7 @@
 # Name of MistralService Custom Resource
 name: mistral-service
 
-operatorImage: "ghcr.io/netcracker/qubership-mistral-operator:main"
+operatorImage: "ghcr.io/netcracker/qubership-mistral-operator-img:main"
 operator:
   imagePullPolicy: IfNotPresent
   priorityClassName: ""
@@ -21,6 +21,7 @@ mistral:
   dockerImage: "ghcr.io/netcracker/qubership-mistral:main"
   cloudIntegrationEnabled: true
   liteEnabled: false
+  imagePullPolicy: IfNotPresent
   ingress:
     enabled: False
     host: ""
@@ -175,7 +176,7 @@ integrationTests:
 
 bluegreenAgent:
   enabled: False
-  image: "ghcr.io/netcracker/qubership-mistral-operator-bluegreen-agent:main"
+  image: "ghcr.io/netcracker/qubership-mistral-operator-bluegreen-agent-img:main"
   imagePullPolicy: IfNotPresent
   resources:
     limits:

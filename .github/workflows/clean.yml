@@ -10,15 +10,21 @@ jobs:
       fail-fast: false
       matrix:
         component:
-          - name: qubership-mistral-operator
+          - name: qubership-mistral-operator-img
+            file: operator/Dockerfile
+            context: operator
+          - name: qubership-mistral-operator-bluegreen-agent-img
+            file: operator/bluegreen-agent/Dockerfile
+            context: operator/bluegreen-agent
+          - name: qubership-mistral-operator-transfer-img
+            file: operator/docker-transfer/Dockerfile
+            context: .
+          - name: qubership-mistral
             file: Dockerfile
             context: .
-          - name: qubership-mistral-operator-bluegreen-agent
-            file: bluegreen-agent/Dockerfile
-            context: bluegreen-agent
-          - name: qubership-mistral-operator-transfer
-            file: docker-transfer/Dockerfile
-            context: ""
+          - name: qubership-mistral-tests
+            file: tests/robot/Dockerfile
+            context: tests/robot
     if: github.event.ref_type == 'branch'
     runs-on: ubuntu-latest
     steps:
